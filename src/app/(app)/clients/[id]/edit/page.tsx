@@ -1,9 +1,17 @@
 // src/app/(app)/clients/[id]/edit/page.tsx
 
-export default function Page({ params }: { params: { id: string } }) {
-  const { id } = params;
+// Esta página es Server Component (no pongas "use client" aquí)
+export default async function Page({
+  params,
+}: {
+  // Ajustamos al tipo que Next está exigiendo ahora mismo (Promise<any>)
+  params: Promise<{ id: string }>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  // Desempaquetamos la promesa que Next (por algún motivo) está esperando
+  const { id } = await params;
 
-  // Coloca aquí tu UI real de edición:
+  // TODO: tu UI real de edición
   return (
     <div className="p-6 space-y-2">
       <h1 className="text-xl font-semibold">Editar cliente</h1>
