@@ -1,9 +1,5 @@
 // src/lib/definitions.ts
 
-// -----------------------------
-// Tipos y constantes compartidas
-// -----------------------------
-
 export type Project = {
   id: string;
   name: string;
@@ -84,9 +80,9 @@ export type User = {
   profilePicture?: string;
   status: 'online' | 'offline';
   lastSeen: string;
-  position?: string;      // Cargo del empleado
-  hireDate?: string;      // Fecha de contratación
-  workStatus?: 'Activo' | 'En Pausa' | 'De Baja'; // Estado laboral
+  position?: string;
+  hireDate?: string;
+  workStatus?: 'Activo' | 'En Pausa' | 'De Baja';
 }
 
 export type Client = {
@@ -108,7 +104,7 @@ export type InvoiceItem = {
 export type Invoice = {
   id: string;
   clientId: string;
-  projectId: string; // <-- Added this field
+  projectId: string;
   clientName: string;
   salespersonId: string;
   ncf?: string;
@@ -129,7 +125,6 @@ export type Task = {
   projectId: string;
   status: 'To Do' | 'In Progress' | 'Done';
   dueDate: string;
-  // Solo para orden en dashboard; no se persiste
   sortDate?: string;
 };
 
@@ -180,7 +175,6 @@ export type WarehouseRequest = {
   items: WarehouseRequestItem[];
   notes?: string;
   comments?: Comment[];
-  // Solo para orden en dashboard; no se persiste
   sortDate?: string;
 };
 
@@ -190,7 +184,7 @@ export type Notification = {
   link: string;
   createdAt: string;
   read: boolean;
-  userId?: string; // Optional: Para notificar a un usuario específico
+  userId?: string;
 };
 
 export type ChatMessage = {
@@ -213,19 +207,3 @@ export type SearchResult = {
   description: string;
   url: string;
 }
-
-// ---------------------------------------
-// Re-exports de acciones del lado servidor
-// ---------------------------------------
-// Estos son para mantener compatibilidad con imports existentes como:
-//   import { getTasks } from '@/lib/definitions'
-// Recomendación: NO importar estas funciones desde componentes "use client".
-// Si necesitas usarlas en UI cliente, haz el fetch en una Server Page/Component
-// y pasa los datos como props al componente cliente.
-
-export {
-  getTasks,
-  getWarehouseRequests,
-  updateTicket,
-  addCommentToTicket,
-} from './data';
