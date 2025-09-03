@@ -1,5 +1,4 @@
 
-
 import { getInvoice, getClients, getProjects } from "@/lib/data";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/page-header";
@@ -21,5 +20,3 @@ export default async function EditInvoicePage({ params }: { params: { id: string
     </>
   );
 }
-
-
