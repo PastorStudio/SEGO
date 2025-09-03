@@ -1,20 +1,18 @@
+// src/app/(app)/clients/[id]/edit/page.tsx
 
-import { getClient } from "@/lib/data";
-import { notFound } from "next/navigation";
-import { PageHeader } from "@/components/page-header";
-import { ClientForm } from "../../_components/client-form";
+interface PageProps {
+  params: { id: string };
+  searchParams?: Record<string, string | string[] | undefined>;
+}
 
-export default async function EditClientPage({ params }: { params: { id: string } }) {
-  const client = await getClient(params.id);
+export default function Page({ params }: PageProps) {
+  const { id } = params;
 
-  if (!client) {
-    notFound();
-  }
-
+  // TODO: renderiza aquí tu formulario/ UI de edición
   return (
-    <>
-      <PageHeader title="Editar Cliente" />
-      <ClientForm client={client} />
-    </>
+    <div className="p-6">
+      <h1 className="text-xl font-semibold">Editar cliente</h1>
+      <p className="text-sm text-muted-foreground">ID: {id}</p>
+    </div>
   );
 }
