@@ -2,7 +2,8 @@
 'use client'
 
 import { useState, useEffect, useMemo } from 'react';
-import { addCommentToTicket, updateTicket, type Ticket, type User, type Client } from "@/lib/definitions"
+import { addCommentToTicket, updateTicket } from "@/lib/data"
+import { type Ticket, type User, type Client } from "@/lib/definitions"
 import { PageHeader } from "@/components/page-header"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
