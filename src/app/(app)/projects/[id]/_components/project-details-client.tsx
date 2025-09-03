@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import type { Project, Task, WarehouseRequest, User } from '@/lib/definitions';
 import { PageHeader } from '@/components/page-header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,8 +11,6 @@ import { ArrowLeft, Edit, Package, ListTodo } from 'lucide-react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ClientDate } from '@/components/client-only';
-
-const POLLING_INTERVAL = 5000; // 5 seconds
 
 const statusVariant: { [key in Project['status']]: 'default' | 'secondary' | 'destructive' | 'outline' } = {
   'On Track': 'default',
@@ -55,13 +53,11 @@ const requestStatusTranslate: { [key in WarehouseRequest['status']]: string } = 
 const getInitials = (name: string) => {
   if (!name) return '';
   const names = name.split(' ');
-  if (names.length > 1) {
-    return (names[0][0] + names[names.length - 1][0]).toUpperCase();
-  }
+  if (names.length > 1) return (names[0][0] + names[names.length - 1][0]).toUpperCase();
   return name[0]?.toUpperCase() || '';
 };
 
-type ProjectDetailsClientProps = {
+type Props = {
   initialProject: Project;
   initialTasks: Task[];
   initialWarehouseRequests: WarehouseRequest[];
@@ -73,50 +69,15 @@ export function ProjectDetailsClient({
   initialTasks,
   initialWarehouseRequests,
   allUsers,
-}: ProjectDetailsClientProps) {
+}: Props) {
   const [project] = useState<Project>(initialProject);
-  const [tasks, setTasks] = useState<Task[]>(initialTasks);
-  const [warehouseRequests, setWarehouseRequests] = useState<WarehouseRequest[]>(initialWarehouseRequests);
+  const [tasks] = useState<Task[]>(initialTasks);
+  const [warehouseRequests] = useState<WarehouseRequest[]>(initialWarehouseRequests);
 
   const teamMembers = useMemo(
     () => allUsers.filter((user) => project.team.includes(user.id)),
     [allUsers, project.team]
   );
-
-  useEffect(() => {
-    let mounted = true;
-
-    const pollData = async () => {
-      try {
-        const [tasksRes, requestsRes] = await Promise.all([
-          fetch(`/api/projects/${project.id}/tasks`, { cache: 'no-store' }),
-          fetch(`/api/projects/${project.id}/warehouse-requests`, { cache: 'no-store' }),
-        ]);
-
-        if (!mounted) return;
-
-        if (tasksRes.ok) {
-          const t: Task[] = await tasksRes.json();
-          setTasks(t);
-        }
-        if (requestsRes.ok) {
-          const r: WarehouseRequest[] = await requestsRes.json();
-          setWarehouseRequests(r);
-        }
-      } catch {
-        // Silenciamos errores de polling para no romper UX
-      }
-    };
-
-    const intervalId = setInterval(pollData, POLLING_INTERVAL);
-    // Primer fetch inmediato para no esperar 5s
-    pollData();
-
-    return () => {
-      mounted = false;
-      clearInterval(intervalId);
-    };
-  }, [project.id]);
 
   return (
     <>
