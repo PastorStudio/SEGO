@@ -1,4 +1,4 @@
-// src/app/(app)/users/[id]/edit/page.tsx
+// src/app/(app)/users/[id]/page.tsx
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getUser } from '@/lib/data';
@@ -22,23 +22,16 @@ export default async function Page({
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">Editar usuario</h1>
-        <div className="text-sm">
-          <Link href={`/users/${id}`} className="text-primary underline">
-            ← Volver al perfil
-          </Link>
-        </div>
+        <h1 className="text-xl font-semibold">{user.name}</h1>
+        <Link href="/users" className="text-sm text-primary underline">
+          ← Volver a usuarios
+        </Link>
       </div>
 
-      {/* TODO: reemplaza por tu formulario real de edición */}
       <div className="grid gap-3 text-sm">
         <div>
           <span className="text-muted-foreground">ID:</span>{' '}
           <span className="font-mono">{user.id}</span>
-        </div>
-        <div>
-          <span className="text-muted-foreground">Nombre:</span>{' '}
-          <span>{user.name}</span>
         </div>
         <div>
           <span className="text-muted-foreground">Email:</span>{' '}
@@ -52,6 +45,12 @@ export default async function Page({
           <span className="text-muted-foreground">Estado:</span>{' '}
           <span>{user.status}</span>
         </div>
+        {user.position ? (
+          <div>
+            <span className="text-muted-foreground">Cargo:</span>{' '}
+            <span>{user.position}</span>
+          </div>
+        ) : null}
       </div>
     </div>
   );
