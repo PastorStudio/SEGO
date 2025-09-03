@@ -7,7 +7,7 @@ import { ChatClient } from "./_components/chat-client";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { User, ChatMessage } from "@/lib/definitions";
-import { useAuth } from "@/hooks/use-auth.tsx";
+import { useAuth } from "@/hooks/use-auth";
 
 function ChatPageContent() {
   const searchParams = useSearchParams();
