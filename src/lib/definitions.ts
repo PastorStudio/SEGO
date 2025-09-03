@@ -1,4 +1,8 @@
+// src/lib/definitions.ts
 
+// -----------------------------
+// Tipos y constantes compartidas
+// -----------------------------
 
 export type Project = {
   id: string;
@@ -15,7 +19,27 @@ export type Project = {
 export const roles = ["Super-Admin", "Admin", "Agent", "Viewer"] as const;
 export type Role = typeof roles[number];
 
-export const pages = ["Dashboard", "Analytics", "Recursos Humanos", "Administración y Supervisión", "Trabajo inmediato", "Tickets", "Projects", "Tasks", "Invoices", "Clients", "Users & Companies", "Services", "Warehouse", "Montaje", "Reparto", "Cuentas por Cobrar", "Nuestras Fiestas", "Settings", "Chat"] as const;
+export const pages = [
+  "Dashboard",
+  "Analytics",
+  "Recursos Humanos",
+  "Administración y Supervisión",
+  "Trabajo inmediato",
+  "Tickets",
+  "Projects",
+  "Tasks",
+  "Invoices",
+  "Clients",
+  "Users & Companies",
+  "Services",
+  "Warehouse",
+  "Montaje",
+  "Reparto",
+  "Cuentas por Cobrar",
+  "Nuestras Fiestas",
+  "Settings",
+  "Chat",
+] as const;
 export type Page = typeof pages[number];
 
 export type Permissions = Record<Role, Record<Page, boolean>>;
@@ -31,39 +55,38 @@ export const initialPermissions: Permissions = {
     "Dashboard": true, "Analytics": true, "Recursos Humanos": true, "Administración y Supervisión": true, "Trabajo inmediato": true, "Projects": true, "Tasks": true,
     "Invoices": true, "Clients": true, "Users & Companies": true, "Services": true,
     "Warehouse": true, "Montaje": true, "Reparto": true, "Cuentas por Cobrar": true, "Settings": true,
-     "Chat": true, "Tickets": true, "Nuestras Fiestas": true,
+    "Chat": true, "Tickets": true, "Nuestras Fiestas": true,
   },
   "Agent": {
     "Dashboard": true, "Analytics": false, "Recursos Humanos": false, "Administración y Supervisión": false, "Trabajo inmediato": true, "Projects": true, "Tasks": true,
     "Invoices": true, "Clients": true, "Users & Companies": false, "Services": true,
     "Warehouse": true, "Montaje": true, "Reparto": true, "Cuentas por Cobrar": false, "Settings": false,
-     "Chat": true, "Tickets": true, "Nuestras Fiestas": true,
+    "Chat": true, "Tickets": true, "Nuestras Fiestas": true,
   },
   "Viewer": {
     "Dashboard": false, "Analytics": false, "Recursos Humanos": false, "Administración y Supervisión": false, "Trabajo inmediato": true, "Projects": false, "Tasks": true,
     "Invoices": false, "Clients": false, "Users & Companies": false, "Services": false,
     "Warehouse": true, "Montaje": true, "Cuentas por Cobrar": false, "Settings": false, "Reparto": true,
-     "Chat": true, "Tickets": true, "Nuestras Fiestas": true,
+    "Chat": true, "Tickets": true, "Nuestras Fiestas": true,
   },
 };
 
-
 export type User = {
-    id: string;
-    name: string;
-    email: string;
-    phone: string;
-    birthDate?: string;
-    password?: string;
-    role: Role;
-    company: string;
-    avatar: string;
-    profilePicture?: string;
-    status: 'online' | 'offline';
-    lastSeen: string;
-    position?: string; // Cargo del empleado
-    hireDate?: string; // Fecha de contratación
-    workStatus?: 'Activo' | 'En Pausa' | 'De Baja'; // Estado laboral
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  birthDate?: string;
+  password?: string;
+  role: Role;
+  company: string;
+  avatar: string;
+  profilePicture?: string;
+  status: 'online' | 'offline';
+  lastSeen: string;
+  position?: string;      // Cargo del empleado
+  hireDate?: string;      // Fecha de contratación
+  workStatus?: 'Activo' | 'En Pausa' | 'De Baja'; // Estado laboral
 }
 
 export type Client = {
@@ -101,13 +124,13 @@ export type Invoice = {
 };
 
 export type Task = {
-    id: string;
-    title: string;
-    projectId: string;
-    status: 'To Do' | 'In Progress' | 'Done';
-    dueDate: string;
-    // This field is just for sorting purposes in the dashboard, not stored in db.json
-    sortDate?: string; 
+  id: string;
+  title: string;
+  projectId: string;
+  status: 'To Do' | 'In Progress' | 'Done';
+  dueDate: string;
+  // Solo para orden en dashboard; no se persiste
+  sortDate?: string;
 };
 
 export type ImmediateTask = {
@@ -147,7 +170,6 @@ export type Ticket = {
   comments?: Comment[];
 };
 
-
 export type WarehouseRequest = {
   id: string;
   projectId: string;
@@ -158,8 +180,8 @@ export type WarehouseRequest = {
   items: WarehouseRequestItem[];
   notes?: string;
   comments?: Comment[];
-  // This field is just for sorting purposes in the dashboard, not stored in db.json
-  sortDate?: string; 
+  // Solo para orden en dashboard; no se persiste
+  sortDate?: string;
 };
 
 export type Notification = {
@@ -168,7 +190,7 @@ export type Notification = {
   link: string;
   createdAt: string;
   read: boolean;
-  userId?: string; // Optional: To target a specific user
+  userId?: string; // Optional: Para notificar a un usuario específico
 };
 
 export type ChatMessage = {
@@ -185,9 +207,25 @@ export type PrivateChats = {
 }
 
 export type SearchResult = {
-    id: string;
-    type: 'projects' | 'clients' | 'users' | 'invoices' | 'tasks' | 'tickets';
-    title: string;
-    description: string;
-    url: string;
+  id: string;
+  type: 'projects' | 'clients' | 'users' | 'invoices' | 'tasks' | 'tickets';
+  title: string;
+  description: string;
+  url: string;
 }
+
+// ---------------------------------------
+// Re-exports de acciones del lado servidor
+// ---------------------------------------
+// Estos son para mantener compatibilidad con imports existentes como:
+//   import { getTasks } from '@/lib/definitions'
+// Recomendación: NO importar estas funciones desde componentes "use client".
+// Si necesitas usarlas en UI cliente, haz el fetch en una Server Page/Component
+// y pasa los datos como props al componente cliente.
+
+export {
+  getTasks,
+  getWarehouseRequests,
+  updateTicket,
+  addCommentToTicket,
+} from './data';
