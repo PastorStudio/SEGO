@@ -1,11 +1,23 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { getWarehouseRequests } from '@/lib/data';
 
+export const revalidate = 0;
+// export const dynamic = 'force-dynamic';
+
 export async function GET(
-  request: NextRequest,
-  context: { params: { id: string } }
+  _req: Request,
+  { params }: { params: { id: string } }
 ) {
-  const all = await getWarehouseRequests();
-  const filtered = all.filter(r => r.projectId === context.params.id);
-  return NextResponse.json(filtered);
+  try {
+    const all = await getWarehouseRequests();
+    const filtered = (all || []).filter(r => r.projectId === params.id);
+    return NextResponse.json(filtered, {
+      headers: { 'Cache-Control': 'no-store' },
+    });
+  } catch (err) {
+    return NextResponse.json(
+      { error: 'Failed to fetch warehouse requests' },
+      { status: 500 }
+    );
+  }
 }
