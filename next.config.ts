@@ -10,6 +10,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   experimental: {
@@ -18,17 +24,6 @@ const nextConfig: NextConfig = {
         "*.firebase.studio"
     ]
   }
+};
 
 export default nextConfig;
-// En next.config.ts
-images: {
-  remotePatterns: [
-    {
-      protocol: 'https',
-      hostname: 'picsum.photos', // Añadido para los avatares
-      port: '',
-      pathname: '/**',
-    },
-    // ... otros patterns
-  ],
-},
