@@ -14,18 +14,18 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { ClientOnly } from "@/components/client-only";
-import { format } from 'date-fns';
-import { es } from 'date-fns/locale';
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
 import { getAvatarUrl } from "@/lib/avatars";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
-import EmojiPicker, { type EmojiClickData } from "emoji-picker-react";
+import EmojiPicker, { type EmojiClickData, Theme } from "emoji-picker-react";
 import { useTheme } from "next-themes";
 
 const getInitials = (name: string) => {
-  if (!name) return '';
-  const names = name.split(' ');
+  if (!name) return "";
+  const names = name.split(" ");
   if (names.length > 1) return (names[0][0] + names[names.length - 1][0]).toUpperCase();
-  return name[0]?.toUpperCase() || '';
+  return name[0]?.toUpperCase() || "";
 };
 
 const POLLING_INTERVAL = 5000; // 5 seconds
@@ -34,49 +34,53 @@ type ChatClientProps = {
   users: User[];
   initialGeneralMessages: ChatMessage[];
   initialSelectedUserId?: string | null;
-}
+};
 
 export function ChatClient({ users, initialGeneralMessages, initialSelectedUserId }: ChatClientProps) {
   const { currentUser } = useAuth();
   const { theme } = useTheme();
-  const [selectedChat, setSelectedChat] = useState<User | 'general'>('general');
+  const emojiTheme = theme === "dark" ? Theme.DARK : theme === "light" ? Theme.LIGHT : Theme.AUTO;
+
+  const [selectedChat, setSelectedChat] = useState<User | "general">("general");
   const [messages, setMessages] = useState<ChatMessage[]>(initialGeneralMessages);
   const [newMessage, setNewMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [unreadCounts, setUnreadCounts] = useState<Record<string, number>>({});
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const otherUsers = users.filter(u => u.id !== currentUser?.id);
+  const otherUsers = users.filter((u) => u.id !== currentUser?.id);
 
   useEffect(() => {
     if (initialSelectedUserId) {
-      const userToSelect = users.find(u => u.id === initialSelectedUserId);
+      const userToSelect = users.find((u) => u.id === initialSelectedUserId);
       if (userToSelect) setSelectedChat(userToSelect);
     }
   }, [initialSelectedUserId, users]);
 
   const scrollToBottom = () => messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  useEffect(() => { scrollToBottom(); }, [messages]);
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const fetchUnreadCounts = async () => {
     if (currentUser) {
       const counts = await getUnreadMessageCount(currentUser.id);
       setUnreadCounts(counts);
     }
-  }
+  };
 
   const fetchMessages = async () => {
     if (!currentUser) return;
     setIsLoading(true);
     try {
-      if (selectedChat === 'general') {
+      if (selectedChat === "general") {
         const generalMessages = await getGeneralChatMessages();
         setMessages(generalMessages);
       } else {
-        await markChatAsRead(currentUser.id, selectedChat.id);
-        const privateMessages = await getPrivateChatMessages(currentUser.id, selectedChat.id);
+        await markChatAsRead(currentUser.id, (selectedChat as User).id);
+        const privateMessages = await getPrivateChatMessages(currentUser.id, (selectedChat as User).id);
         setMessages(privateMessages);
-        fetchUnreadCounts();
+        fetchUnreadCounts(); // refresca contadores tras marcar leído
       }
     } catch (error) {
       console.error("Failed to fetch messages:", error);
@@ -93,7 +97,7 @@ export function ChatClient({ users, initialGeneralMessages, initialSelectedUserI
     fetchUnreadCounts();
     const interval = setInterval(async () => {
       await fetchUnreadCounts();
-      if (selectedChat === 'general') {
+      if (selectedChat === "general") {
         setMessages(await getGeneralChatMessages());
       } else if (currentUser) {
         setMessages(await getPrivateChatMessages(currentUser.id, (selectedChat as User).id));
@@ -106,7 +110,7 @@ export function ChatClient({ users, initialGeneralMessages, initialSelectedUserI
     e.preventDefault();
     if (!newMessage.trim() || !currentUser) return;
 
-    const recipientId = selectedChat === 'general' ? undefined : (selectedChat as User).id;
+    const recipientId = selectedChat === "general" ? undefined : (selectedChat as User).id;
 
     const tempId = `temp-${Date.now()}`;
     const optimisticMessage: ChatMessage = {
@@ -115,30 +119,28 @@ export function ChatClient({ users, initialGeneralMessages, initialSelectedUserI
       content: newMessage,
       createdAt: new Date().toISOString(),
       read: false,
-      recipientId
+      recipientId,
     };
-    setMessages(prev => [...prev, optimisticMessage]);
+    setMessages((prev) => [...prev, optimisticMessage]);
     setNewMessage("");
 
     try {
       const savedMessage = await addChatMessage(newMessage, currentUser.id, recipientId);
-      setMessages(prev => prev.map(msg => msg.id === tempId ? savedMessage : msg));
+      setMessages((prev) => prev.map((msg) => (msg.id === tempId ? savedMessage : msg)));
     } catch (error) {
       console.error("Failed to send message:", error);
-      setMessages(prev => prev.filter(msg => msg.id !== tempId));
+      setMessages((prev) => prev.filter((msg) => msg.id !== tempId));
     }
-  }
-
-  const onEmojiClick = (emojiData: EmojiClickData) => {
-    setNewMessage(prev => prev + emojiData.emoji);
   };
 
-  const getUserById = (id: string) => users.find(u => u.id === id);
-  const chatTitle = selectedChat === 'general' ? 'Team Sego' : (selectedChat as User).name;
+  const onEmojiClick = (emojiData: EmojiClickData) => {
+    setNewMessage((prev) => prev + emojiData.emoji);
+  };
+
+  const getUserById = (id: string) => users.find((u) => u.id === id);
+  const chatTitle = selectedChat === "general" ? "Team Sego" : (selectedChat as User).name;
 
   if (!currentUser) return <div>Cargando...</div>;
-
-  const currentUserAvatarSrc = getAvatarUrl(currentUser.avatar);
 
   return (
     <>
@@ -152,10 +154,10 @@ export function ChatClient({ users, initialGeneralMessages, initialSelectedUserI
             <CardContent className="space-y-2">
               {/* General Chat */}
               <button
-                onClick={() => setSelectedChat('general')}
+                onClick={() => setSelectedChat("general")}
                 className={cn(
                   "w-full flex items-center gap-3 p-2 rounded-lg text-left transition-colors",
-                  selectedChat === 'general' ? 'bg-secondary' : 'hover:bg-secondary/50'
+                  selectedChat === "general" ? "bg-secondary" : "hover:bg-secondary/50"
                 )}
               >
                 <Avatar className="h-10 w-10 relative">
@@ -170,27 +172,31 @@ export function ChatClient({ users, initialGeneralMessages, initialSelectedUserI
               </button>
               <Separator />
               {/* Private Chats */}
-              {otherUsers.map(user => (
+              {otherUsers.map((user) => (
                 <button
                   key={user.id}
                   onClick={() => setSelectedChat(user)}
                   className={cn(
                     "w-full flex items-center gap-3 p-2 rounded-lg text-left transition-colors",
-                    (selectedChat as User)?.id === user.id ? 'bg-secondary' : 'hover:bg-secondary/50'
+                    (selectedChat as User)?.id === user.id ? "bg-secondary" : "hover:bg-secondary/50"
                   )}
                 >
                   <Avatar className="h-10 w-10 relative">
                     <AvatarImage src={getAvatarUrl(user.avatar)} alt={user.name} />
                     <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
                     <ClientOnly>
-                      <span className={`absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-background ${user.status === 'online' ? 'bg-green-500' : 'bg-gray-400'}`} />
+                      <span
+                        className={`absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-background ${
+                          user.status === "online" ? "bg-green-500" : "bg-gray-400"
+                        }`}
+                      />
                     </ClientOnly>
                   </Avatar>
                   <div className="flex-1">
                     <p className="font-semibold">{user.name}</p>
                     <p className="text-xs text-muted-foreground">
                       <ClientOnly>
-                        {user.status === 'online' ? 'Online' : format(new Date(user.lastSeen), 'p', { locale: es })}
+                        {user.status === "online" ? "Online" : format(new Date(user.lastSeen), "p", { locale: es })}
                       </ClientOnly>
                     </p>
                   </div>
@@ -227,7 +233,7 @@ export function ChatClient({ users, initialGeneralMessages, initialSelectedUserI
                       {showAvatar && (
                         <Avatar className="h-8 w-8 self-end mb-1">
                           <AvatarImage src={getAvatarUrl(sender?.avatar)} alt={sender?.name} />
-                          <AvatarFallback>{sender ? getInitials(sender.name) : '?'}</AvatarFallback>
+                          <AvatarFallback>{sender ? getInitials(sender.name) : "?"}</AvatarFallback>
                         </Avatar>
                       )}
                       <div
@@ -237,8 +243,8 @@ export function ChatClient({ users, initialGeneralMessages, initialSelectedUserI
                           !isCurrentUser && !showAvatar && "ml-10"
                         )}
                       >
-                        {!isCurrentUser && selectedChat === 'general' && (
-                          <p className="text-xs font-bold text-primary mb-1">{sender?.name || 'Desconocido'}</p>
+                        {!isCurrentUser && selectedChat === "general" && (
+                          <p className="text-xs font-bold text-primary mb-1">{sender?.name || "Desconocido"}</p>
                         )}
                         <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
                         <p
@@ -247,9 +253,7 @@ export function ChatClient({ users, initialGeneralMessages, initialSelectedUserI
                             isCurrentUser ? "text-primary-foreground/70" : "text-muted-foreground"
                           )}
                         >
-                          <ClientOnly>
-                            {format(new Date(msg.createdAt), 'p', { locale: es })}
-                          </ClientOnly>
+                          <ClientOnly>{format(new Date(msg.createdAt), "p", { locale: es })}</ClientOnly>
                         </p>
                       </div>
                     </div>
@@ -275,7 +279,7 @@ export function ChatClient({ users, initialGeneralMessages, initialSelectedUserI
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0 border-0">
-                  <EmojiPicker onEmojiClick={onEmojiClick} theme={theme === 'dark' ? 'dark' : 'light'} />
+                  <EmojiPicker onEmojiClick={onEmojiClick} theme={emojiTheme} />
                 </PopoverContent>
               </Popover>
               <Input
