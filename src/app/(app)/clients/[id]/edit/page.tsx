@@ -4,11 +4,7 @@ import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/page-header";
 import { ClientForm } from "../../_components/client-form";
 
-type EditClientPageProps = {
-    params: { id: string };
-};
-
-export default async function EditClientPage({ params }: EditClientPageProps) {
+export default async function EditClientPage({ params }: { params: { id: string } }) {
   const client = await getClient(params.id);
 
   if (!client) {
