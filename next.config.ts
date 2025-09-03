@@ -1,5 +1,5 @@
-// next.config.ts
-import type { NextConfig } from 'next';
+
+import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
   images: {
@@ -10,8 +10,20 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
+  experimental: {
+    allowedDevOrigins: [
+        "*.cloudworkstations.dev",
+        "*.firebase.studio"
+    ]
+  }
 };
 
 export default nextConfig;
