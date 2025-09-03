@@ -1,8 +1,8 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getWarehouseRequests } from '@/lib/data';
 
 export async function GET(
-  _req: Request,
+  request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   const all = await getWarehouseRequests();
