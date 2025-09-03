@@ -1,28 +1,38 @@
+// src/app/(app)/projects/[id]/page.tsx
+import { notFound } from 'next/navigation';
+import { ProjectDetailsClient } from './_components/project-details-client';
+import type { Project, Task, WarehouseRequest, User } from '@/lib/definitions';
+import { getProject, getTasks, getWarehouseRequests, getUsers } from '@/lib/data';
 
-import { getProject, getTasks, getWarehouseRequests, getUsers } from "@/lib/data"
-import { notFound } from "next/navigation"
-import { ProjectDetailsClient } from "./_components/project-details-client";
+export default async function Page({
+  params,
+}: {
+  // Parche: tu build actual espera params como Promise
+  params: Promise<{ id: string }>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const { id } = await params;
 
-export default async function ProjectDetailsPage({ params }: { params: { id: string } }) {
-  const projectData = await getProject(params.id)
-  if (!projectData) notFound()
+  const [project, allTasks, allRequests, allUsers] = await Promise.all([
+    getProject(id),
+    getTasks(),
+    getWarehouseRequests(),
+    getUsers(),
+  ]);
 
-  // Initial data is fetched on the server for fast first load.
-  // The client component will then poll for updates.
-  const allTasksData = await getTasks();
-  const allRequestsData = await getWarehouseRequests();
-  const allUsersData = await getUsers();
+  if (!project) {
+    notFound();
+  }
 
-  const projectTasks = allTasksData.filter(task => task.projectId === projectData.id);
-  const projectWarehouseRequests = allRequestsData.filter(req => req.projectId === projectData.id);
-  
+  const tasks = (allTasks as Task[]).filter((t) => t.projectId === id);
+  const warehouseRequests = (allRequests as WarehouseRequest[]).filter((r) => r.projectId === id);
 
   return (
     <ProjectDetailsClient
-        initialProject={projectData}
-        initialTasks={projectTasks}
-        initialWarehouseRequests={projectWarehouseRequests}
-        allUsers={allUsersData}
+      initialProject={project as Project}
+      initialTasks={tasks}
+      initialWarehouseRequests={warehouseRequests}
+      allUsers={allUsers as User[]}
     />
-  )
+  );
 }
