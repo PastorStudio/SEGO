@@ -1,0 +1,187 @@
+@import 'react-big-calendar/lib/css/react-big-calendar.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 14% 96%; /* #ecf0f5 */
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 16 84% 50%; /* Mamey */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 13% 91%; /* #e3e6e8 */
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 220 13% 91%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 220 13% 91%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 350 82% 52%; /* #dd4b39 */
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 13% 88%; /* #dee2e6 */
+    --input: 214.3 31.8% 91.4%;
+    --ring: 16 84% 50%;
+    --radius: 0.5rem;
+    --chart-1: 16 84% 50%; /* Mamey */
+    --chart-2: 145 63% 42%; /* green */
+    --chart-3: 261 47% 48%;
+    --chart-4: 38 92% 50%; /* yellow */
+    --chart-5: 9 87% 67%; /* orange */
+    --sidebar-background: 210 17% 18%; /* #222d32 */
+    --sidebar-foreground: 220 14% 96%; /* #ecf0f5 */
+    --sidebar-primary: 16 84% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 15% 25%; /* Slightly lighter than sidebar bg */
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 210 10% 25%;
+    --sidebar-ring: 16 84% 50%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 16 84% 55%; /* Brighter Mamey for dark mode */
+    --primary-foreground: 210 40% 98%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 350 72% 57%; /* Brighter red for dark mode */
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 22.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 16 84% 55%;
+    --radius: 0.5rem;
+    --chart-1: 16 84% 55%;
+    --chart-2: 145 53% 47%;
+    --chart-3: 261 57% 58%;
+    --chart-4: 38 82% 55%;
+    --chart-5: 9 77% 72%;
+    --sidebar-background: 210 17% 18%;
+    --sidebar-foreground: 220 14% 96%;
+    --sidebar-primary: 16 84% 55%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 210 15% 25%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 210 10% 25%;
+    --sidebar-ring: 16 84% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
+
+@layer components {
+  /* react-big-calendar custom styles */
+  .rbc-toolbar {
+    @apply mb-4 flex flex-col items-center gap-4 sm:flex-row;
+  }
+  .rbc-toolbar .rbc-toolbar-label {
+    @apply text-xl font-bold text-foreground;
+  }
+  .rbc-btn-group {
+    @apply flex gap-2;
+  }
+  .rbc-btn-group button {
+     @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2;
+  }
+  .rbc-btn-group button:not(.rbc-active) {
+    @apply border border-input bg-background hover:bg-accent hover:text-accent-foreground;
+  }
+  .rbc-btn-group button.rbc-active {
+     @apply bg-primary text-primary-foreground hover:bg-primary/90;
+  }
+
+  .rbc-calendar {
+    @apply bg-card text-card-foreground rounded-lg p-2;
+  }
+
+  .rbc-header {
+    @apply border-b border-border p-2 text-center font-bold text-muted-foreground;
+  }
+  
+  .rbc-month-view, .rbc-time-view, .rbc-agenda-view {
+    @apply border-border;
+  }
+
+  .rbc-day-bg {
+    @apply border-l border-border;
+  }
+  .rbc-day-bg:first-child {
+      @apply border-l-0;
+  }
+  
+  .rbc-month-row {
+    @apply min-h-[120px] border-t border-border;
+  }
+
+  .rbc-date-cell {
+     @apply p-1 text-right text-muted-foreground;
+  }
+  
+  .rbc-today {
+    @apply bg-accent/20;
+  }
+
+  .rbc-event {
+    @apply p-1 text-xs;
+  }
+  
+  .rbc-time-header {
+      @apply border-b border-border;
+  }
+
+  .rbc-time-content {
+      @apply border-t-0;
+  }
+
+  .rbc-timeslot-group {
+      @apply border-b border-border;
+  }
+
+  .rbc-time-gutter {
+      @apply text-muted-foreground;
+  }
+  
+  .animate-bounce {
+    animation: bounce 1s infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(-25%);
+      animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+    50% {
+      transform: translateY(0);
+      animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+  }
+}

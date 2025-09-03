@@ -1,0 +1,14 @@
+# Settings to manage and configure a Firebase App Hosting backend.
+# https://firebase.google.com/docs/app-hosting/configure
+# This is a basic configuration for a Next.js app.
+runConfig:
+  cpu: 1
+  memoryMiB: 512
+automaticScaling:
+  minInstances: 0
+  maxInstances: 2
+  maxConcurrency: 80
+  cpuUtilization:
+    target: 0.6
+  memoryUtilization:
+    target: 0.6
