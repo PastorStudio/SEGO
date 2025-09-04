@@ -4,12 +4,14 @@
 
 import type { WarehouseRequest, Project, User } from "@/lib/definitions";
 import { addCommentToWarehouseRequest } from "@/lib/data";
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Package, NotebookText, Truck } from "lucide-react";
 import { CommentSection } from "../../warehouse/_components/comment-section";
 import { Separator } from "@/components/ui/separator";
-import { useAuth } from "@/hooks/use-auth.tsx";
+import { useAuth } from "@/hooks/use-auth";
+
 
 type GroupedRequests = {
   [date: string]: {
