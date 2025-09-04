@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { useToast } from "@/hooks/use-toast"
 import { type Project, deleteProject } from "@/lib/data"
-import { useAuth } from "@/hooks/use-auth.tsx"
+import { useAuth } from "@/hooks/use-auth"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 
