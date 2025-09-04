@@ -20,73 +20,12 @@ import type {
 import { initialPermissions } from './definitions';
 import { supabase } from './supabase-client';
 
-// ⭐️ Reexporta los tipos para que todos los imports funcionen
 export type { Invoice, InvoiceItem, Client } from './definitions';
 
-// Helper para errores
 async function handleError(error: any, context: string) {
   console.error(`Supabase error in ${context}:`, error);
   throw new Error(`Database operation failed: ${context}`);
 }
-
-// -- Ejemplo función principal: asegurando todos los campos --
-export async function getInvoices(): Promise<Invoice[]> {
-  const { data, error } = await supabase
-    .from('invoices')
-    .select('*')
-    .order('issueDate', { ascending: false });
-  if (error) await handleError(error, 'getInvoices');
-
-  const rows = (data as any[]) || [];
-  return rows.map((i) => ({
-    // spread todos los datos de BD
-    ...i,
-    // asegura el formato de items
-    items: Array.isArray(i.items) ? i.items : JSON.parse(i.items || "[]"),
-    // asegura que existan los campos obligatorios del tipo Invoice
-    projectId: i.projectId ?? "",
-    salespersonId: i.salespersonId ?? "",
-    dueDate: i.dueDate ?? "",
-    clientId: i.clientId ?? "",
-    clientName: i.clientName ?? "",
-    amount: i.amount ?? 0,
-    status: i.status ?? "Draft",
-    issueDate: i.issueDate ?? "",
-    // opcionales
-    ncf: i.ncf,
-    notes: i.notes,
-    firstPayment: i.firstPayment,
-    subsequentPayments: i.subsequentPayments,
-    commissionPaid: i.commissionPaid,
-  })) as Invoice[];
-}
-
-export async function getInvoice(id: string): Promise<Invoice | undefined> {
-  const { data, error } = await supabase.from('invoices').select('*').eq('id', id).single();
-  if (error && error.code !== 'PGRST116') await handleError(error, 'getInvoice');
-  if (!data) return undefined;
-  const i = data as any;
-  return {
-    ...i,
-    items: Array.isArray(i.items) ? i.items : JSON.parse(i.items || "[]"),
-    projectId: i.projectId ?? "",
-    salespersonId: i.salespersonId ?? "",
-    dueDate: i.dueDate ?? "",
-    clientId: i.clientId ?? "",
-    clientName: i.clientName ?? "",
-    amount: i.amount ?? 0,
-    status: i.status ?? "Draft",
-    issueDate: i.issueDate ?? "",
-    ncf: i.ncf,
-    notes: i.notes,
-    firstPayment: i.firstPayment,
-    subsequentPayments: i.subsequentPayments,
-    commissionPaid: i.commissionPaid,
-  } as Invoice;
-}
-
-// Puedes dejar el resto de tus funciones igual, solo asegúrate que cuando devuelvas un Invoice, tenga todos los campos necesarios como aquí.
-
 
 // --- Auth (demo) ---
 export async function loginAction(credentials: { email: string; password?: string }) {
@@ -162,6 +101,7 @@ export async function getClient(id: string): Promise<Client | undefined> {
   return (data as Client) || undefined;
 }
 
+// --- INVOICES (CORRECTO: SOLO UNA DEFINICIÓN) ---
 export async function getInvoices(): Promise<Invoice[]> {
   const { data, error } = await supabase
     .from('invoices')
@@ -172,7 +112,20 @@ export async function getInvoices(): Promise<Invoice[]> {
   const rows = (data as any[]) || [];
   return rows.map((i) => ({
     ...i,
-    items: JSON.parse(i.items),
+    items: Array.isArray(i.items) ? i.items : JSON.parse(i.items || "[]"),
+    projectId: i.projectId ?? "",
+    salespersonId: i.salespersonId ?? "",
+    dueDate: i.dueDate ?? "",
+    clientId: i.clientId ?? "",
+    clientName: i.clientName ?? "",
+    amount: i.amount ?? 0,
+    status: i.status ?? "Draft",
+    issueDate: i.issueDate ?? "",
+    ncf: i.ncf,
+    notes: i.notes,
+    firstPayment: i.firstPayment,
+    subsequentPayments: i.subsequentPayments,
+    commissionPaid: i.commissionPaid,
   })) as Invoice[];
 }
 
@@ -180,11 +133,27 @@ export async function getInvoice(id: string): Promise<Invoice | undefined> {
   const { data, error } = await supabase.from('invoices').select('*').eq('id', id).single();
   if (error && error.code !== 'PGRST116') await handleError(error, 'getInvoice');
   if (!data) return undefined;
-  const row = data as any;
-  row.items = JSON.parse(row.items);
-  return row as Invoice;
+  const i = data as any;
+  return {
+    ...i,
+    items: Array.isArray(i.items) ? i.items : JSON.parse(i.items || "[]"),
+    projectId: i.projectId ?? "",
+    salespersonId: i.salespersonId ?? "",
+    dueDate: i.dueDate ?? "",
+    clientId: i.clientId ?? "",
+    clientName: i.clientName ?? "",
+    amount: i.amount ?? 0,
+    status: i.status ?? "Draft",
+    issueDate: i.issueDate ?? "",
+    ncf: i.ncf,
+    notes: i.notes,
+    firstPayment: i.firstPayment,
+    subsequentPayments: i.subsequentPayments,
+    commissionPaid: i.commissionPaid,
+  } as Invoice;
 }
 
+// --- Tasks ---
 export async function getTasks(): Promise<Task[]> {
   const { data, error } = await supabase.from('tasks').select('*').order('dueDate', { ascending: false });
   if (error) await handleError(error, 'getTasks');
@@ -197,6 +166,7 @@ export async function getTask(id: string): Promise<Task | undefined> {
   return (data as Task) || undefined;
 }
 
+// --- Tickets ---
 export async function getTickets(): Promise<Ticket[]> {
   const { data, error } = await supabase
     .from('tickets')
@@ -217,17 +187,18 @@ export async function getTicket(id: string): Promise<Ticket | undefined> {
   return row as Ticket;
 }
 
+// --- Immediate Tasks ---
 export async function getImmediateTasks(): Promise<ImmediateTask[]> {
   const { data, error } = await supabase
     .from('immediateTasks')
     .select('*')
     .order('id', { ascending: false });
   if (error) await handleError(error, 'getImmediateTasks');
-
   const rows = (data as any[]) || [];
   return rows.map((t) => ({ ...t, comments: JSON.parse(t.comments || '[]') })) as ImmediateTask[];
 }
 
+// --- Permissions ---
 export async function getPermissions(): Promise<Permissions> {
   const { data, error } = await supabase.from('permissions').select('*').single();
   if (error || !data) {
@@ -249,6 +220,7 @@ export async function updatePermissions(newPermissions: Permissions): Promise<vo
   revalidatePath('/', 'layout');
 }
 
+// --- Warehouse ---
 export async function getWarehouseRequests(): Promise<WarehouseRequest[]> {
   const { data, error } = await supabase
     .from('warehouseRequests')
@@ -274,6 +246,7 @@ export async function getWarehouseRequest(id: string): Promise<WarehouseRequest 
   return row as WarehouseRequest;
 }
 
+// --- Notifications ---
 export async function getNotifications(): Promise<Notification[]> {
   const { data, error } = await supabase
     .from('notifications')
@@ -284,11 +257,7 @@ export async function getNotifications(): Promise<Notification[]> {
   return (data as Notification[]) || [];
 }
 
-// ...el resto de tu código (mutations, chat, comments, etc.) permanece igual
-
-// -----------------------------
-// Chat
-// -----------------------------
+// --- Chat ---
 export async function getGeneralChatMessages(): Promise<ChatMessage[]> {
   const { data, error } = await supabase
     .from('generalChatMessages')
@@ -336,9 +305,7 @@ export async function markChatAsRead(recipientId: string, senderId: string): Pro
   revalidatePath('/chat');
 }
 
-// -----------------------------
-// Notifications
-// -----------------------------
+// --- Notifications (mutations) ---
 export async function addNotification(notification: Omit<Notification, 'id' | 'createdAt' | 'read'>): Promise<void> {
   const newNotification = {
     ...notification,
@@ -354,9 +321,7 @@ export async function markNotificationsAsRead(): Promise<void> {
   if (error) await handleError(error, 'markNotificationsAsRead');
 }
 
-// -----------------------------
-// Mutations: Projects
-// -----------------------------
+// --- Mutations: Projects ---
 export async function addProject(project: Omit<Project, 'id'>, userName: string): Promise<Project> {
   const newProjectData = { ...project, id: `PROJ-${String(Date.now()).slice(-4)}` };
   const { data, error } = await supabase.from('projects').insert(newProjectData).select().single();
@@ -388,9 +353,7 @@ export async function deleteProject(projectId: string): Promise<void> {
   revalidatePath('/projects');
 }
 
-// -----------------------------
-// Mutations: Users
-// -----------------------------
+// --- Mutations: Users ---
 export async function addUser(
   user: Omit<User, 'id' | 'company' | 'avatar' | 'status' | 'lastSeen' | 'profilePicture'>
 ): Promise<User> {
@@ -448,9 +411,7 @@ export async function setUserStatus(userId: string, status: 'online' | 'offline'
   revalidatePath('/', 'layout');
 }
 
-// -----------------------------
-// Mutations: Clients
-// -----------------------------
+// --- Mutations: Clients ---
 export async function addClient(client: Omit<Client, 'id'>): Promise<Client> {
   const newClientData = { ...client, id: `client-${Date.now()}` };
   const { data, error } = await supabase.from('clients').insert(newClientData).select().single();
@@ -482,9 +443,7 @@ export async function deleteClient(clientId: string): Promise<void> {
   revalidatePath('/clients');
 }
 
-// -----------------------------
-// Mutations: Invoices
-// -----------------------------
+// --- Mutations: Invoices ---
 export async function addInvoice(invoice: Omit<Invoice, 'id' | 'clientName'>, userName: string): Promise<Invoice> {
   const client = await getClient(invoice.clientId);
 
@@ -545,9 +504,7 @@ export async function updateInvoiceStatus(invoiceId: string, newStatus: Invoice[
   revalidatePath('/invoices');
 }
 
-// -----------------------------
-// Mutations: Tasks e ImmediateTasks
-// -----------------------------
+// --- Mutations: Tasks e ImmediateTasks ---
 export async function addTask(task: Omit<Task, 'id'>, userName: string): Promise<Task> {
   const newTaskData = { ...task, id: `TASK-${String(Date.now()).slice(-4)}` };
   const { data, error } = await supabase.from('tasks').insert(newTaskData).select().single();
@@ -593,9 +550,7 @@ export async function linkImmediateTaskToProject(taskId: string, projectId: stri
   revalidatePath('/immediate-work');
 }
 
-// -----------------------------
-// Mutations: Warehouse
-// -----------------------------
+// --- Mutations: Warehouse ---
 export async function addWarehouseRequest(
   request: Omit<WarehouseRequest, 'id' | 'comments'>,
   userName: string
@@ -636,9 +591,7 @@ export async function updateWarehouseRequest(
   revalidatePath('/delivery-routes');
 }
 
-// -----------------------------
-// Comments (reusable helper + wrappers)
-// -----------------------------
+// --- Comments ---
 async function addComment(
   entityId: string,
   content: string,
@@ -681,9 +634,7 @@ export async function addCommentToTicket(ticketId: string, content: string, user
   return addComment(ticketId, content, userId, 'tickets', `/tickets/${ticketId}`, 'el ticket');
 }
 
-// -----------------------------
-// Chat: send message
-// -----------------------------
+// --- Chat: send message ---
 export async function addChatMessage(content: string, senderId: string, recipientId?: string): Promise<ChatMessage> {
   const message: ChatMessage = {
     id: `msg-${Date.now()}`,
@@ -702,9 +653,7 @@ export async function addChatMessage(content: string, senderId: string, recipien
   return data as ChatMessage;
 }
 
-// -----------------------------
-// Tickets
-// -----------------------------
+// --- Tickets ---
 export async function addTicket(ticketData: Omit<Ticket, 'id' | 'createdAt' | 'comments'>): Promise<Ticket> {
   const newTicketData: any = {
     ...ticketData,
@@ -737,9 +686,7 @@ export async function updateTicket(updatedTicket: Ticket): Promise<void> {
   revalidatePath(`/tickets/${updatedTicket.id}`);
 }
 
-// -----------------------------
-// Global Search
-// -----------------------------
+// --- Global Search ---
 export async function searchGlobal(query: string): Promise<SearchResult[]> {
   const normalizedQuery = `%${query}%`;
   const results: SearchResult[] = [];
