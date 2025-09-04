@@ -13,39 +13,80 @@ import type {
   ChatMessage,
   Ticket,
   SearchResult,
+  Invoice,
+  InvoiceItem,
+  Client,
 } from './definitions';
 import { initialPermissions } from './definitions';
 import { supabase } from './supabase-client';
 
-// ⭐️ Reexporta SOLO los tipos. NO los definas de nuevo.
-export type { Invoice, Client, InvoiceItem } from './definitions';
+// ⭐️ Reexporta los tipos para que todos los imports funcionen
+export type { Invoice, InvoiceItem, Client } from './definitions';
 
-// ...el resto de tu código y funciones van aquí abajo.
-
-// Si NO están en definitions, define aquí mismo:
-export type Invoice = {
-  id: string;
-  clientId: string;
-  clientName: string;
-  amount: number;
-  issueDate: string;
-  status: string;
-  items: any[]; // Ajusta si tienes un tipo InvoiceItem
-};
-
-export type Client = {
-  id: string;
-  name: string;
-  email?: string;
-  phone?: string;
-  address?: string;
-};
-
-// --- Helpers ---
+// Helper para errores
 async function handleError(error: any, context: string) {
   console.error(`Supabase error in ${context}:`, error);
   throw new Error(`Database operation failed: ${context}`);
 }
+
+// -- Ejemplo función principal: asegurando todos los campos --
+export async function getInvoices(): Promise<Invoice[]> {
+  const { data, error } = await supabase
+    .from('invoices')
+    .select('*')
+    .order('issueDate', { ascending: false });
+  if (error) await handleError(error, 'getInvoices');
+
+  const rows = (data as any[]) || [];
+  return rows.map((i) => ({
+    // spread todos los datos de BD
+    ...i,
+    // asegura el formato de items
+    items: Array.isArray(i.items) ? i.items : JSON.parse(i.items || "[]"),
+    // asegura que existan los campos obligatorios del tipo Invoice
+    projectId: i.projectId ?? "",
+    salespersonId: i.salespersonId ?? "",
+    dueDate: i.dueDate ?? "",
+    clientId: i.clientId ?? "",
+    clientName: i.clientName ?? "",
+    amount: i.amount ?? 0,
+    status: i.status ?? "Draft",
+    issueDate: i.issueDate ?? "",
+    // opcionales
+    ncf: i.ncf,
+    notes: i.notes,
+    firstPayment: i.firstPayment,
+    subsequentPayments: i.subsequentPayments,
+    commissionPaid: i.commissionPaid,
+  })) as Invoice[];
+}
+
+export async function getInvoice(id: string): Promise<Invoice | undefined> {
+  const { data, error } = await supabase.from('invoices').select('*').eq('id', id).single();
+  if (error && error.code !== 'PGRST116') await handleError(error, 'getInvoice');
+  if (!data) return undefined;
+  const i = data as any;
+  return {
+    ...i,
+    items: Array.isArray(i.items) ? i.items : JSON.parse(i.items || "[]"),
+    projectId: i.projectId ?? "",
+    salespersonId: i.salespersonId ?? "",
+    dueDate: i.dueDate ?? "",
+    clientId: i.clientId ?? "",
+    clientName: i.clientName ?? "",
+    amount: i.amount ?? 0,
+    status: i.status ?? "Draft",
+    issueDate: i.issueDate ?? "",
+    ncf: i.ncf,
+    notes: i.notes,
+    firstPayment: i.firstPayment,
+    subsequentPayments: i.subsequentPayments,
+    commissionPaid: i.commissionPaid,
+  } as Invoice;
+}
+
+// Puedes dejar el resto de tus funciones igual, solo asegúrate que cuando devuelvas un Invoice, tenga todos los campos necesarios como aquí.
+
 
 // --- Auth (demo) ---
 export async function loginAction(credentials: { email: string; password?: string }) {
