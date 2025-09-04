@@ -44,11 +44,11 @@ export async function loginAction(credentials: { email: string; password?: strin
     return { success: false, error: 'Database error during login.' };
   }
 
-  if (!data || data.password !== credentials.password) {
+  if (!data || (data as any).password !== credentials.password) {
     return { success: false, error: 'Invalid credentials' };
   }
 
-  await setUserStatus(data.id, 'online');
+  await setUserStatus((data as any).id, 'online');
   return { success: true, user: data as User };
 }
 
@@ -179,6 +179,19 @@ export async function getPermissions(): Promise<Permissions> {
   return (data as any).data as Permissions;
 }
 
+// 👉 faltaba exportar esto para Settings
+export async function updatePermissions(newPermissions: Permissions): Promise<void> {
+  const { error } = await supabase
+    .from('permissions')
+    .update({ data: newPermissions })
+    .eq('id', 1); // asumiendo una sola fila id=1
+
+  if (error) await handleError(error, 'updatePermissions');
+
+  revalidatePath('/settings');
+  revalidatePath('/', 'layout');
+}
+
 export async function getWarehouseRequests(): Promise<WarehouseRequest[]> {
   const { data, error } = await supabase
     .from('warehouseRequests')
@@ -227,7 +240,6 @@ export async function getGeneralChatMessages(): Promise<ChatMessage[]> {
 }
 
 export async function getPrivateChatMessages(userId1: string, userId2: string): Promise<ChatMessage[]> {
-  // Nota: si necesitas "AND" por par, usa la sintaxis con and(...). Mantengo tu forma original.
   const { data, error } = await supabase
     .from('privateChatMessages')
     .select('*')
