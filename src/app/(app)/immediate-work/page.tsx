@@ -4,10 +4,27 @@
 import { useState, useEffect } from "react";
 import { PageHeader } from "@/components/page-header"
 import { Card, CardContent } from "@/components/ui/card"
-import { getUsers, getImmediateTasks, getProjects, type User, type ImmediateTask, addImmediateTask, deleteImmediateTask, updateImmediateTaskStatus, getProject, linkImmediateTaskToProject, addCommentToImmediateTask } from "@/lib/data"
+
+// ✅ Funciones desde data (sin tipos)
+import {
+  getUsers,
+  getImmediateTasks,
+  getProjects,
+  addImmediateTask,
+  deleteImmediateTask,
+  updateImmediateTaskStatus,
+  getProject,
+  linkImmediateTaskToProject,
+  addCommentToImmediateTask,
+} from "@/lib/data"
+
+// ✅ Tipos desde definitions
+import type { User, ImmediateTask, Project, Task } from "@/lib/definitions"
+
 import { Button } from "@/components/ui/button"
 import { PlusCircle, X, Check, ClipboardList, Info, Link2 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
 import {
   Dialog,
   DialogContent,
