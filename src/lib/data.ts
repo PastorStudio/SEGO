@@ -12,18 +12,13 @@ import type {
   Comment,
   ChatMessage,
   Ticket,
-  SearchResult,
-  Invoice,
-  InvoiceItem,
-  Client
+  SearchResult
 } from './definitions';
 import { initialPermissions } from './definitions';
 import { supabase } from './supabase-client';
 
-// Reexporta los tipos directamente desde definitions.ts
-export type { Invoice, InvoiceItem, Client };
-
-// ...el resto de tu código y tus funciones van aquí abajo
+// ⭐️ ESTA LÍNEA ES CLAVE: reexporta los tipos desde definitions.ts
+export type { Invoice, Client, InvoiceItem } from './definitions';
 
 // Si NO están en definitions, define aquí mismo:
 export type Invoice = {
