@@ -10,9 +10,9 @@ import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { useToast } from "@/hooks/use-toast"
-import { getPermissions, updatePermissions } from "@/lib/data" // ← único import (sin duplicados)
+import { getPermissions, updatePermissions } from "@/lib/data"
 import { type Role, type Page, type Permissions, pages, roles } from "@/lib/definitions"
-import { useAuth } from "@/hooks/use-auth" // ← sin la extensión .tsx
+import { useAuth } from "@/hooks/use-auth" // ← sin .tsx
 import { Skeleton } from "@/components/ui/skeleton"
 import { ThemeSwitcher } from "./_components/theme-switcher"
 import { AvatarSelector } from "./_components/avatar-selector"
@@ -53,7 +53,7 @@ export default function SettingsPage() {
   const { toast } = useToast()
 
   useEffect(() => {
-    async function fetchData() {
+    const fetchData = async () => {
       const perms = await getPermissions()
       setPermissions(perms)
     }
@@ -132,4 +132,92 @@ export default function SettingsPage() {
             </CardHeader>
             <CardContent className="space-y-4 flex flex-col items-center">
               <AvatarSelector />
-              <div className="text-center
+              <div className="text-center">
+                <p className="font-bold text-lg">{currentUser.name}</p>
+                <p className="text-sm text-muted-foreground">{currentUser.email}</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="md:col-span-2">
+            <CardHeader>
+              <CardTitle>Contraseña</CardTitle>
+              <CardDescription>
+                Cambia tu contraseña. Se recomienda usar una contraseña fuerte y única.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="current-password">Contraseña Actual</Label>
+                <Input id="current-password" type="password" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="new-password">Nueva Contraseña</Label>
+                <Input id="new-password" type="password" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="confirm-password">Confirmar Nueva Contraseña</Label>
+                <Input id="confirm-password" type="password" />
+              </div>
+              <Button>Actualizar Contraseña</Button>
+            </CardContent>
+          </Card>
+        </div>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Gestión de Roles</CardTitle>
+            <CardDescription>
+              Selecciona qué páginas son visibles para cada rol en el sistema.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Página / Rol</TableHead>
+                    {availableRoles.map(role => (
+                      <TableHead key={role} className="text-center">
+                        {roleTranslations[role]}
+                      </TableHead>
+                    ))}
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {displayPages.map(page => (
+                    <TableRow key={page}>
+                      <TableCell className="font-medium">
+                        {pageTranslations[page as Page] || page}
+                      </TableCell>
+                      {availableRoles.map(role => (
+                        <TableCell key={role} className="text-center">
+                          <Checkbox
+                            checked={permissions[role]?.[page] ?? false}
+                            onCheckedChange={checked =>
+                              handlePermissionChange(role, page, !!checked)
+                            }
+                            disabled={
+                              role === 'Admin' &&
+                              page === 'Settings' &&
+                              currentUser.role !== 'Super-Admin'
+                            }
+                            aria-label={`Permiso para que ${role} acceda a ${page}`}
+                          />
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+
+            <div className="mt-6 flex justify-end">
+              <Button onClick={handleSaveChanges}>Guardar Permisos</Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </>
+  )
+}
