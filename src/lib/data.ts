@@ -17,14 +17,13 @@ import type {
 import { initialPermissions } from './definitions';
 import { supabase } from './supabase-client';
 
-// Define InvoiceItem for items array in Invoice
+// --- Tipos principales ---
 export type InvoiceItem = {
   description: string;
   quantity: number;
   price: number;
 };
 
-// Define and export Invoice type
 export type Invoice = {
   id: string;
   clientId: string;
@@ -35,7 +34,6 @@ export type Invoice = {
   items: InvoiceItem[];
 };
 
-// Define and export Client type
 export type Client = {
   id: string;
   name: string;
@@ -44,17 +42,13 @@ export type Client = {
   address?: string;
 };
 
-// ...resto de tu código (helpers, funciones, etc.)
-// Puedes dejar todo el resto de tu lógica igual, solo asegúrate de que los tipos estén como aquí.
-
+// --- Helpers ---
 async function handleError(error: any, context: string) {
   console.error(`Supabase error in ${context}:`, error);
   throw new Error(`Database operation failed: ${context}`);
 }
 
-// -----------------------------
-// Auth (demo)
-// -----------------------------
+// --- Auth (demo) ---
 export async function loginAction(credentials: { email: string; password?: string }) {
   const { data, error } = await supabase
     .from('users')
@@ -76,47 +70,34 @@ export async function loginAction(credentials: { email: string; password?: strin
   return { success: true, user: data as User };
 }
 
-// -----------------------------
-// Getters (ejemplo para invoices y clients)
-// -----------------------------
-export async function getInvoices(): Promise<Invoice[]> {
+// --- Getters ---
+export async function getProjects(): Promise<Project[]> {
   const { data, error } = await supabase
-    .from('invoices')
+    .from('projects')
     .select('*')
-    .order('issueDate', { ascending: false });
-  if (error) await handleError(error, 'getInvoices');
+    .order('dueDate', { ascending: false });
 
-  const rows = (data as any[]) || [];
-  return rows.map((i) => ({
-    ...i,
-    items: JSON.parse(i.items),
-  })) as Invoice[];
+  if (error) await handleError(error, 'getProjects');
+  return (data as Project[]) || [];
 }
 
-export async function getInvoice(id: string): Promise<Invoice | undefined> {
-  const { data, error } = await supabase.from('invoices').select('*').eq('id', id).single();
-  if (error && error.code !== 'PGRST116') await handleError(error, 'getInvoice');
-  if (!data) return undefined;
-  const row = data as any;
-  row.items = JSON.parse(row.items);
-  return row as Invoice;
+export async function getProject(id: string): Promise<Project | undefined> {
+  const { data, error } = await supabase.from('projects').select('*').eq('id', id).single();
+  if (error && error.code !== 'PGRST116') await handleError(error, 'getProject');
+  return (data as Project) || undefined;
 }
 
-export async function getClients(): Promise<Client[]> {
-  const { data, error } = await supabase.from('clients').select('*').order('name');
-  if (error) await handleError(error, 'getClients');
-  return (data as Client[]) || [];
+export async function getUsers(): Promise<User[]> {
+  const { data, error } = await supabase.from('users').select('*').order('name');
+  if (error) await handleError(error, 'getUsers');
+  return (data as User[]) || [];
 }
 
-export async function getClient(id: string): Promise<Client | undefined> {
-  const { data, error } = await supabase.from('clients').select('*').eq('id', id).single();
-  if (error && error.code !== 'PGRST116') await handleError(error, 'getClient');
-  return (data as Client) || undefined;
+export async function getUser(id: string): Promise<User | undefined> {
+  const { data, error } = await supabase.from('users').select('*').eq('id', id).single();
+  if (error && error.code !== 'PGRST116') await handleError(error, 'getUser');
+  return (data as User) || undefined;
 }
-
-// ...el resto de tus funciones permanece igual
-
-// Si tienes más getters, mutations, helpers, déjalos igual que en tu archivo original.
 
 export async function getFirstSuperAdmin(): Promise<User | undefined> {
   const { data, error } = await supabase
