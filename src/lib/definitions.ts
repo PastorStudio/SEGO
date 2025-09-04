@@ -1,4 +1,5 @@
 // src/lib/definitions.ts
+import type { User, Client, Project, Task, WarehouseRequest } from "@/lib/definitions";
 
 export type Project = {
   id: string;
