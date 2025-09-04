@@ -17,7 +17,6 @@ import type {
 import { initialPermissions } from './definitions';
 import { supabase } from './supabase-client';
 
-// ⭐️ ESTA LÍNEA ES CLAVE: reexporta los tipos desde definitions.ts
 export type { Invoice, Client, InvoiceItem } from './definitions';
 
 // Si NO están en definitions, define aquí mismo:
