@@ -13,15 +13,17 @@ import type {
   ChatMessage,
   Ticket,
   SearchResult,
-  Invoice as DefInvoice,
-  Client as DefClient
+  Invoice,
+  InvoiceItem,
+  Client
 } from './definitions';
 import { initialPermissions } from './definitions';
 import { supabase } from './supabase-client';
 
-// Si tienes los tipos en definitions, REEXPORTA así:
-export type Invoice = DefInvoice;
-export type Client = DefClient;
+// Reexporta los tipos directamente desde definitions.ts
+export type { Invoice, InvoiceItem, Client };
+
+// ...el resto de tu código y tus funciones van aquí abajo
 
 // Si NO están en definitions, define aquí mismo:
 export type Invoice = {
