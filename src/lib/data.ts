@@ -4,11 +4,9 @@ import { revalidatePath } from 'next/cache';
 import type {
   Project,
   User,
-  Invoice,
   Task,
   ImmediateTask,
   Permissions,
-  Client,
   WarehouseRequest,
   Notification,
   Comment,
@@ -19,6 +17,25 @@ import type {
 import { initialPermissions } from './definitions';
 import { supabase } from './supabase-client';
 
+// Define and export Invoice type
+export type Invoice = {
+  id: string;
+  clientId: string;
+  amount: number;
+  date: string;
+  status: string;
+  // agrega aquí los campos reales
+};
+
+// Define and export Client type
+export type Client = {
+  id: string;
+  name: string;
+  email?: string;
+  // agrega aquí los campos reales
+};
+
+// ...resto de tu código
 // -----------------------------
 // Helpers
 // -----------------------------
