@@ -28,7 +28,7 @@ import { type Project, addProject, updateProject, type User, getUsers, getTicket
 import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
 import { Checkbox } from "@/components/ui/checkbox"
-import { useAuth } from "@/hooks/use-auth.tsx"
+import { useAuth } from "@/hooks/use-auth"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { cn } from "@/lib/utils"
 import { Badge } from "@/components/ui/badge"
