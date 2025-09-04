@@ -179,7 +179,6 @@ export async function getPermissions(): Promise<Permissions> {
   return (data as any).data as Permissions;
 }
 
-// 👉 faltaba exportar esto para Settings
 export async function updatePermissions(newPermissions: Permissions): Promise<void> {
   const { error } = await supabase
     .from('permissions')
