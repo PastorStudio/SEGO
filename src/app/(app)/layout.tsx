@@ -24,7 +24,7 @@ import {
 import { Header } from "@/components/layout/header"
 import { type Page, type User, type Notification } from "@/lib/definitions"
 import { getUnreadMessageCount, getNotifications } from "@/lib/data"
-import { AuthProvider, useAuth } from "@/hooks/use-auth.tsx"
+import { AuthProvider, useAuth } from "@/hooks/use-auth"
 import { cn } from "@/lib/utils"
 import { ClientOnly } from "@/components/client-only"
 import { Skeleton } from "@/components/ui/skeleton"
