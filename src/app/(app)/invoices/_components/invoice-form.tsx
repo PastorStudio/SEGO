@@ -39,7 +39,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { services } from "@/lib/services"
 import { useEffect, useState } from "react"
 import { Label } from "@/components/ui/label"
-import { useAuth } from "@/hooks/use-auth.tsx"
+import { useAuth } from "@/hooks/use-auth"
 import { ScrollArea } from "@/components/ui/scroll-area"
 
 const invoiceItemSchema = z.object({
