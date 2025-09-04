@@ -17,6 +17,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { ThemeSwitcher } from "./_components/theme-switcher"
 import { AvatarSelector } from "./_components/avatar-selector"
 import { ClientOnly } from "@/components/client-only"
+import { getPermissions, updatePermissions } from "@/lib/data";
 
 const pageTranslations: Record<Page, string> = {
     "Dashboard": "Dashboard",
