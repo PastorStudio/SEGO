@@ -17,28 +17,30 @@ import type {
 import { initialPermissions } from './definitions';
 import { supabase } from './supabase-client';
 
-// Define and export Invoice type
+export type InvoiceItem = {
+  description: string;
+  quantity: number;
+  price: number;
+};
+
 export type Invoice = {
   id: string;
   clientId: string;
+  clientName: string;
   amount: number;
-  date: string;
+  issueDate: string;
   status: string;
-  // agrega aquí los campos reales
+  items: InvoiceItem[];
 };
 
-// Define and export Client type
 export type Client = {
   id: string;
   name: string;
   email?: string;
-  // agrega aquí los campos reales
+  phone?: string;
+  address?: string;
 };
 
-// ...resto de tu código
-// -----------------------------
-// Helpers
-// -----------------------------
 async function handleError(error: any, context: string) {
   console.error(`Supabase error in ${context}:`, error);
   throw new Error(`Database operation failed: ${context}`);
@@ -55,7 +57,6 @@ export async function loginAction(credentials: { email: string; password?: strin
     .limit(1)
     .single();
 
-  // PGRST116 = no rows found
   if (error && error.code !== 'PGRST116') {
     console.error('Login error:', error);
     return { success: false, error: 'Database error during login.' };
@@ -131,7 +132,10 @@ export async function getInvoices(): Promise<Invoice[]> {
   if (error) await handleError(error, 'getInvoices');
 
   const rows = (data as any[]) || [];
-  return rows.map((i) => ({ ...i, items: JSON.parse(i.items) })) as Invoice[];
+  return rows.map((i) => ({
+    ...i,
+    items: JSON.parse(i.items),
+  })) as Invoice[];
 }
 
 export async function getInvoice(id: string): Promise<Invoice | undefined> {
@@ -192,7 +196,6 @@ export async function getPermissions(): Promise<Permissions> {
     console.error('Could not fetch permissions, falling back to initial.', error);
     return initialPermissions;
   }
-  // La tabla guarda { id, data } donde data es el objeto Permissions
   return (data as any).data as Permissions;
 }
 
@@ -200,7 +203,7 @@ export async function updatePermissions(newPermissions: Permissions): Promise<vo
   const { error } = await supabase
     .from('permissions')
     .update({ data: newPermissions })
-    .eq('id', 1); // asumiendo una sola fila id=1
+    .eq('id', 1);
 
   if (error) await handleError(error, 'updatePermissions');
 
@@ -242,6 +245,8 @@ export async function getNotifications(): Promise<Notification[]> {
   if (error) await handleError(error, 'getNotifications');
   return (data as Notification[]) || [];
 }
+
+// ...el resto de tu código (mutations, chat, comments, etc.) permanece igual
 
 // -----------------------------
 // Chat
