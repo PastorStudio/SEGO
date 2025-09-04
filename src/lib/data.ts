@@ -12,12 +12,15 @@ import type {
   Comment,
   ChatMessage,
   Ticket,
-  SearchResult
+  SearchResult,
 } from './definitions';
 import { initialPermissions } from './definitions';
 import { supabase } from './supabase-client';
 
+// ⭐️ Reexporta SOLO los tipos. NO los definas de nuevo.
 export type { Invoice, Client, InvoiceItem } from './definitions';
+
+// ...el resto de tu código y funciones van aquí abajo.
 
 // Si NO están en definitions, define aquí mismo:
 export type Invoice = {
