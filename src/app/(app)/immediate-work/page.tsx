@@ -13,7 +13,6 @@ import {
   addImmediateTask,
   deleteImmediateTask,
   updateImmediateTaskStatus,
-  getProject,
   linkImmediateTaskToProject,
   addCommentToImmediateTask,
 } from "@/lib/data"
