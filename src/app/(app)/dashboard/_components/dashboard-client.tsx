@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { type Project, type Task, type Client, type WarehouseRequest, type ImmediateTask, type User, type Invoice, type Ticket as TicketType } from "@/lib/definitions";
 import { useMemo } from "react";
 import Link from "next/link";
-import { useAuth } from "@/hooks/use-auth.tsx";
+import { useAuth } from "@/hooks/use-auth";
 import { ClientDate, ClientNumber } from "@/components/client-only";
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
