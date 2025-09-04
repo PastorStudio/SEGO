@@ -13,17 +13,17 @@ import type {
   ChatMessage,
   Ticket,
   SearchResult,
+  Invoice as DefInvoice,
+  Client as DefClient
 } from './definitions';
 import { initialPermissions } from './definitions';
 import { supabase } from './supabase-client';
 
-// --- Tipos principales ---
-export type InvoiceItem = {
-  description: string;
-  quantity: number;
-  price: number;
-};
+// Si tienes los tipos en definitions, REEXPORTA así:
+export type Invoice = DefInvoice;
+export type Client = DefClient;
 
+// Si NO están en definitions, define aquí mismo:
 export type Invoice = {
   id: string;
   clientId: string;
@@ -31,7 +31,7 @@ export type Invoice = {
   amount: number;
   issueDate: string;
   status: string;
-  items: InvoiceItem[];
+  items: any[]; // Ajusta si tienes un tipo InvoiceItem
 };
 
 export type Client = {
