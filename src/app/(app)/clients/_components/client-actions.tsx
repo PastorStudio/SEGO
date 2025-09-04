@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState } from "react"
@@ -24,8 +23,8 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { useToast } from "@/hooks/use-toast"
-import { type Client, deleteClient } from "@/lib/data"
-
+import type { Client } from "@/lib/definitions"
+import { deleteClient } from "@/lib/data"
 
 export function ClientActions({ client }: { client: Client }) {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
@@ -35,18 +34,18 @@ export function ClientActions({ client }: { client: Client }) {
   const handleDelete = async () => {
     try {
       await deleteClient(client.id)
-      
+
       toast({
-          title: "Cliente Eliminado",
-          description: `El cliente "${client.name}" ha sido eliminado exitosamente.`,
+        title: "Cliente Eliminado",
+        description: `El cliente "${client.name}" ha sido eliminado exitosamente.`,
       })
-      
+
       router.refresh()
     } catch (error) {
-       toast({
+      toast({
         title: "Error",
         description: "No se pudo eliminar el cliente. Por favor, inténtalo de nuevo.",
-        variant: "destructive"
+        variant: "destructive",
       })
     } finally {
       setIsDeleteDialogOpen(false)
@@ -57,7 +56,7 @@ export function ClientActions({ client }: { client: Client }) {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" aria-label="Abrir acciones de cliente">
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
@@ -68,12 +67,16 @@ export function ClientActions({ client }: { client: Client }) {
           </DropdownMenuItem>
           <DropdownMenuItem
             className="text-destructive"
-            onSelect={() => setIsDeleteDialogOpen(true)}
+            onSelect={(e) => {
+              e.preventDefault() // evita que cierre inmediatamente en algunos navegadores
+              setIsDeleteDialogOpen(true)
+            }}
           >
             Eliminar Cliente
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+
       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
