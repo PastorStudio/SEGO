@@ -1,0 +1,552 @@
+jul 16 12:58:59 djp-HP-EliteBook-840-G5 systemd[1]: Starting A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 41177.[0m
+jul 16 12:58:59 djp-HP-EliteBook-840-G5 systemd[1]: Started A high performance web server and a reverse proxy server.
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has finished successfully[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has finished successfully.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 41177.[0m
+jul 16 13:01:15 djp-HP-EliteBook-840-G5 systemd[1]: Stopping A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A stop job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA stop job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 42100.[0m
+jul 16 13:01:15 djp-HP-EliteBook-840-G5 systemd[1]: nginx.service: Succeeded.
+[0;38;5;245m░░ [0m[0;32mSubject: Unit succeeded[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe unit nginx.service has successfully entered the 'dead' state.[0m
+jul 16 13:01:15 djp-HP-EliteBook-840-G5 systemd[1]: Stopped A high performance web server and a reverse proxy server.
+[0;38;5;245m░░ [0m[0;32mSubject: A stop job for unit nginx.service has finished[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA stop job for unit nginx.service has finished.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 42100 and the job result is done.[0m
+jul 16 13:01:15 djp-HP-EliteBook-840-G5 systemd[1]: Starting A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 42100.[0m
+jul 16 13:01:15 djp-HP-EliteBook-840-G5 nginx[1615117]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+jul 16 13:01:15 djp-HP-EliteBook-840-G5 nginx[1615118]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+jul 16 13:01:15 djp-HP-EliteBook-840-G5 systemd[1]: Started A high performance web server and a reverse proxy server.
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has finished successfully[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has finished successfully.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 42100.[0m
+jul 16 16:29:27 djp-HP-EliteBook-840-G5 systemd[1]: Stopping A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A stop job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA stop job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 47533.[0m
+jul 16 16:29:27 djp-HP-EliteBook-840-G5 systemd[1]: nginx.service: Succeeded.
+[0;38;5;245m░░ [0m[0;32mSubject: Unit succeeded[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe unit nginx.service has successfully entered the 'dead' state.[0m
+jul 16 16:29:27 djp-HP-EliteBook-840-G5 systemd[1]: Stopped A high performance web server and a reverse proxy server.
+[0;38;5;245m░░ [0m[0;32mSubject: A stop job for unit nginx.service has finished[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA stop job for unit nginx.service has finished.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 47533 and the job result is done.[0m
+[0;1;39m-- Boot 033ec9f9547a48f681f0d845befdf5e6 --[0m
+jul 16 16:35:48 djp-HP-EliteBook-840-G5 nginx[893]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+jul 16 16:35:48 djp-HP-EliteBook-840-G5 nginx[941]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+jul 16 16:35:48 djp-HP-EliteBook-840-G5 systemd[1]: Starting A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 186.[0m
+jul 16 16:35:48 djp-HP-EliteBook-840-G5 systemd[1]: Started A high performance web server and a reverse proxy server.
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has finished successfully[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has finished successfully.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 186.[0m
+[0;1;39m-- Boot 990bc44cc6824f7a908acf5d7aea83e9 --[0m
+jul 16 16:53:33 djp-HP-EliteBook-840-G5 nginx[877]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+jul 16 16:53:33 djp-HP-EliteBook-840-G5 nginx[925]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+jul 16 16:53:33 djp-HP-EliteBook-840-G5 systemd[1]: Starting A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 146.[0m
+jul 16 16:53:33 djp-HP-EliteBook-840-G5 systemd[1]: Started A high performance web server and a reverse proxy server.
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has finished successfully[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has finished successfully.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 146.[0m
+jul 17 20:46:38 djp-HP-EliteBook-840-G5 systemd[1]: Stopping A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A stop job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA stop job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 12553.[0m
+jul 17 20:46:38 djp-HP-EliteBook-840-G5 systemd[1]: nginx.service: Succeeded.
+[0;38;5;245m░░ [0m[0;32mSubject: Unit succeeded[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe unit nginx.service has successfully entered the 'dead' state.[0m
+jul 17 20:46:38 djp-HP-EliteBook-840-G5 systemd[1]: Stopped A high performance web server and a reverse proxy server.
+[0;38;5;245m░░ [0m[0;32mSubject: A stop job for unit nginx.service has finished[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA stop job for unit nginx.service has finished.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 12553 and the job result is done.[0m
+[0;1;39m-- Boot e643d8251cdc46b7908027cf731083f6 --[0m
+jul 17 20:47:12 djp-HP-EliteBook-840-G5 nginx[899]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+jul 17 20:47:12 djp-HP-EliteBook-840-G5 nginx[941]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+jul 17 20:47:12 djp-HP-EliteBook-840-G5 systemd[1]: Starting A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 164.[0m
+jul 17 20:47:12 djp-HP-EliteBook-840-G5 systemd[1]: Started A high performance web server and a reverse proxy server.
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has finished successfully[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has finished successfully.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 164.[0m
+jul 18 00:44:55 djp-HP-EliteBook-840-G5 systemd[1]: Stopping A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A stop job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA stop job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 6616.[0m
+jul 18 00:44:55 djp-HP-EliteBook-840-G5 systemd[1]: nginx.service: Succeeded.
+[0;38;5;245m░░ [0m[0;32mSubject: Unit succeeded[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe unit nginx.service has successfully entered the 'dead' state.[0m
+jul 18 00:44:55 djp-HP-EliteBook-840-G5 systemd[1]: Stopped A high performance web server and a reverse proxy server.
+[0;38;5;245m░░ [0m[0;32mSubject: A stop job for unit nginx.service has finished[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA stop job for unit nginx.service has finished.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 6616 and the job result is done.[0m
+jul 18 00:44:55 djp-HP-EliteBook-840-G5 systemd[1]: Starting A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 6616.[0m
+jul 18 00:44:55 djp-HP-EliteBook-840-G5 nginx[1033998]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+jul 18 00:44:55 djp-HP-EliteBook-840-G5 nginx[1034003]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+jul 18 00:44:55 djp-HP-EliteBook-840-G5 systemd[1]: Started A high performance web server and a reverse proxy server.
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has finished successfully[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has finished successfully.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 6616.[0m
+jul 18 19:17:03 djp-HP-EliteBook-840-G5 systemd[1]: Stopping A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A stop job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA stop job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 13336.[0m
+jul 18 19:17:03 djp-HP-EliteBook-840-G5 systemd[1]: nginx.service: Succeeded.
+[0;38;5;245m░░ [0m[0;32mSubject: Unit succeeded[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe unit nginx.service has successfully entered the 'dead' state.[0m
+jul 18 19:17:03 djp-HP-EliteBook-840-G5 systemd[1]: Stopped A high performance web server and a reverse proxy server.
+[0;38;5;245m░░ [0m[0;32mSubject: A stop job for unit nginx.service has finished[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA stop job for unit nginx.service has finished.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 13336 and the job result is done.[0m
+[0;1;39m-- Boot cc7c8ae2f98f4ecf8e35e2248eb4ed63 --[0m
+jul 19 23:42:59 djp-HP-EliteBook-840-G5 nginx[963]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+jul 19 23:42:59 djp-HP-EliteBook-840-G5 nginx[1003]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+jul 19 23:42:59 djp-HP-EliteBook-840-G5 systemd[1]: Starting A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 117.[0m
+jul 19 23:42:59 djp-HP-EliteBook-840-G5 systemd[1]: Started A high performance web server and a reverse proxy server.
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has finished successfully[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has finished successfully.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 117.[0m
+[0;1;39m-- Boot ec120b0901bc4d4db4f88f38e19ab1ef --[0m
+jul 27 10:03:32 djp-HP-EliteBook-840-G5 nginx[943]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+jul 27 10:03:32 djp-HP-EliteBook-840-G5 systemd[1]: Starting A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 208.[0m
+jul 27 10:03:32 djp-HP-EliteBook-840-G5 nginx[1006]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+jul 27 10:03:32 djp-HP-EliteBook-840-G5 nginx[1006]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+jul 27 10:03:32 djp-HP-EliteBook-840-G5 nginx[1006]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+jul 27 10:03:33 djp-HP-EliteBook-840-G5 nginx[1006]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+jul 27 10:03:34 djp-HP-EliteBook-840-G5 nginx[1006]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+jul 27 10:03:34 djp-HP-EliteBook-840-G5 nginx[1006]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+jul 27 10:03:35 djp-HP-EliteBook-840-G5 nginx[1006]: nginx: [emerg] still could not bind()
+jul 27 10:03:35 djp-HP-EliteBook-840-G5 systemd[1]: [0;1;39m[0;1;31m[0;1;39mnginx.service: Control process exited, code=exited, status=1/FAILURE[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mAn ExecStart= process belonging to unit nginx.service has exited.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 1.[0m
+jul 27 10:03:35 djp-HP-EliteBook-840-G5 systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mnginx.service: Failed with result 'exit-code'.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe unit nginx.service has entered the 'failed' state with result 'exit-code'.[0m
+jul 27 10:03:35 djp-HP-EliteBook-840-G5 systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start A high performance web server and a reverse proxy server.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has finished with a failure.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 208 and the job result is failed.[0m
+[0;1;39m-- Boot a86a88792a12429db3336f48e771389b --[0m
+jul 29 12:09:58 djp-HP-EliteBook-840-G5 nginx[991]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+jul 29 12:09:58 djp-HP-EliteBook-840-G5 systemd[1]: Starting A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 202.[0m
+jul 29 12:09:58 djp-HP-EliteBook-840-G5 nginx[1088]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+jul 29 12:09:58 djp-HP-EliteBook-840-G5 nginx[1088]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+jul 29 12:09:59 djp-HP-EliteBook-840-G5 nginx[1088]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+jul 29 12:09:59 djp-HP-EliteBook-840-G5 nginx[1088]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+jul 29 12:10:00 djp-HP-EliteBook-840-G5 nginx[1088]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+jul 29 12:10:00 djp-HP-EliteBook-840-G5 nginx[1088]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+jul 29 12:10:01 djp-HP-EliteBook-840-G5 nginx[1088]: nginx: [emerg] still could not bind()
+jul 29 12:10:01 djp-HP-EliteBook-840-G5 systemd[1]: [0;1;39m[0;1;31m[0;1;39mnginx.service: Control process exited, code=exited, status=1/FAILURE[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mAn ExecStart= process belonging to unit nginx.service has exited.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 1.[0m
+jul 29 12:10:01 djp-HP-EliteBook-840-G5 systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mnginx.service: Failed with result 'exit-code'.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe unit nginx.service has entered the 'failed' state with result 'exit-code'.[0m
+jul 29 12:10:01 djp-HP-EliteBook-840-G5 systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start A high performance web server and a reverse proxy server.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has finished with a failure.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 202 and the job result is failed.[0m
+[0;1;39m-- Boot f97279d33ba248eda43660e7fdfb3139 --[0m
+ago 09 01:32:29 djp-HP-EliteBook-840-G5 nginx[976]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+ago 09 01:32:29 djp-HP-EliteBook-840-G5 systemd[1]: Starting A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 184.[0m
+ago 09 01:32:29 djp-HP-EliteBook-840-G5 nginx[1027]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+ago 09 01:32:29 djp-HP-EliteBook-840-G5 nginx[1027]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+ago 09 01:32:29 djp-HP-EliteBook-840-G5 nginx[1027]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+ago 09 01:32:30 djp-HP-EliteBook-840-G5 nginx[1027]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+ago 09 01:32:30 djp-HP-EliteBook-840-G5 nginx[1027]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+ago 09 01:32:31 djp-HP-EliteBook-840-G5 nginx[1027]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Address already in use)
+ago 09 01:32:31 djp-HP-EliteBook-840-G5 nginx[1027]: nginx: [emerg] still could not bind()
+ago 09 01:32:31 djp-HP-EliteBook-840-G5 systemd[1]: [0;1;39m[0;1;31m[0;1;39mnginx.service: Control process exited, code=exited, status=1/FAILURE[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mAn ExecStart= process belonging to unit nginx.service has exited.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 1.[0m
+ago 09 01:32:31 djp-HP-EliteBook-840-G5 systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mnginx.service: Failed with result 'exit-code'.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe unit nginx.service has entered the 'failed' state with result 'exit-code'.[0m
+ago 09 01:32:31 djp-HP-EliteBook-840-G5 systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start A high performance web server and a reverse proxy server.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has finished with a failure.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 184 and the job result is failed.[0m
+ago 23 10:40:19 djp-HP-EliteBook-840-G5 systemd[1]: Starting A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 96477.[0m
+ago 23 10:40:19 djp-HP-EliteBook-840-G5 nginx[771298]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+ago 23 10:40:19 djp-HP-EliteBook-840-G5 nginx[771299]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+ago 23 10:40:19 djp-HP-EliteBook-840-G5 nginx[771299]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
+ago 23 10:40:19 djp-HP-EliteBook-840-G5 nginx[771299]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
+ago 23 10:40:20 djp-HP-EliteBook-840-G5 nginx[771299]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
+ago 23 10:40:20 djp-HP-EliteBook-840-G5 nginx[771299]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
+ago 23 10:40:21 djp-HP-EliteBook-840-G5 nginx[771299]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
+ago 23 10:40:21 djp-HP-EliteBook-840-G5 nginx[771299]: nginx: [emerg] still could not bind()
+ago 23 10:40:21 djp-HP-EliteBook-840-G5 systemd[1]: [0;1;39m[0;1;31m[0;1;39mnginx.service: Control process exited, code=exited, status=1/FAILURE[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mAn ExecStart= process belonging to unit nginx.service has exited.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 1.[0m
+ago 23 10:40:21 djp-HP-EliteBook-840-G5 systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mnginx.service: Failed with result 'exit-code'.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe unit nginx.service has entered the 'failed' state with result 'exit-code'.[0m
+ago 23 10:40:21 djp-HP-EliteBook-840-G5 systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start A high performance web server and a reverse proxy server.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has finished with a failure.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 96477 and the job result is failed.[0m
+ago 26 06:20:18 djp-HP-EliteBook-840-G5 systemd[1]: Starting A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 125194.[0m
+ago 26 06:20:18 djp-HP-EliteBook-840-G5 nginx[782518]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+ago 26 06:20:18 djp-HP-EliteBook-840-G5 nginx[782519]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+ago 26 06:20:18 djp-HP-EliteBook-840-G5 nginx[782519]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
+ago 26 06:20:19 djp-HP-EliteBook-840-G5 nginx[782519]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
+ago 26 06:20:19 djp-HP-EliteBook-840-G5 nginx[782519]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
+ago 26 06:20:20 djp-HP-EliteBook-840-G5 nginx[782519]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
+ago 26 06:20:20 djp-HP-EliteBook-840-G5 nginx[782519]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
+ago 26 06:20:21 djp-HP-EliteBook-840-G5 nginx[782519]: nginx: [emerg] still could not bind()
+ago 26 06:20:21 djp-HP-EliteBook-840-G5 systemd[1]: [0;1;39m[0;1;31m[0;1;39mnginx.service: Control process exited, code=exited, status=1/FAILURE[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mAn ExecStart= process belonging to unit nginx.service has exited.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 1.[0m
+ago 26 06:20:21 djp-HP-EliteBook-840-G5 systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mnginx.service: Failed with result 'exit-code'.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe unit nginx.service has entered the 'failed' state with result 'exit-code'.[0m
+ago 26 06:20:21 djp-HP-EliteBook-840-G5 systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start A high performance web server and a reverse proxy server.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has finished with a failure.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 125194 and the job result is failed.[0m
+[0;1;39m-- Boot f49735af129e432386aeb524d1348500 --[0m
+ago 30 18:50:08 djp-HP-EliteBook-840-G5 systemd[1]: Starting A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 156.[0m
+ago 30 18:50:08 djp-HP-EliteBook-840-G5 nginx[1068]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+ago 30 18:50:08 djp-HP-EliteBook-840-G5 nginx[1128]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+ago 30 18:50:08 djp-HP-EliteBook-840-G5 nginx[1128]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
+ago 30 18:50:09 djp-HP-EliteBook-840-G5 nginx[1128]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
+ago 30 18:50:09 djp-HP-EliteBook-840-G5 nginx[1128]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
+ago 30 18:50:10 djp-HP-EliteBook-840-G5 nginx[1128]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
+ago 30 18:50:10 djp-HP-EliteBook-840-G5 nginx[1128]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
+ago 30 18:50:11 djp-HP-EliteBook-840-G5 nginx[1128]: nginx: [emerg] still could not bind()
+ago 30 18:50:11 djp-HP-EliteBook-840-G5 systemd[1]: [0;1;39m[0;1;31m[0;1;39mnginx.service: Control process exited, code=exited, status=1/FAILURE[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mAn ExecStart= process belonging to unit nginx.service has exited.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 1.[0m
+ago 30 18:50:11 djp-HP-EliteBook-840-G5 systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mnginx.service: Failed with result 'exit-code'.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe unit nginx.service has entered the 'failed' state with result 'exit-code'.[0m
+ago 30 18:50:11 djp-HP-EliteBook-840-G5 systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start A high performance web server and a reverse proxy server.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has finished with a failure.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 156 and the job result is failed.[0m
+[0;1;39m-- Boot 39b25a47903c4f8ca214b928d41cedf5 --[0m
+ago 30 18:58:28 djp-HP-EliteBook-840-G5 nginx[914]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+ago 30 18:58:28 djp-HP-EliteBook-840-G5 nginx[988]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+ago 30 18:58:28 djp-HP-EliteBook-840-G5 nginx[988]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
+ago 30 18:58:28 djp-HP-EliteBook-840-G5 nginx[988]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
+ago 30 18:58:27 djp-HP-EliteBook-840-G5 systemd[1]: Starting A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 229.[0m
+ago 30 18:58:28 djp-HP-EliteBook-840-G5 nginx[988]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
+ago 30 18:58:28 djp-HP-EliteBook-840-G5 nginx[988]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
+ago 30 18:58:29 djp-HP-EliteBook-840-G5 nginx[988]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
+ago 30 18:58:29 djp-HP-EliteBook-840-G5 nginx[988]: nginx: [emerg] still could not bind()
+ago 30 18:58:29 djp-HP-EliteBook-840-G5 systemd[1]: [0;1;39m[0;1;31m[0;1;39mnginx.service: Control process exited, code=exited, status=1/FAILURE[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mAn ExecStart= process belonging to unit nginx.service has exited.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 1.[0m
+ago 30 18:58:29 djp-HP-EliteBook-840-G5 systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mnginx.service: Failed with result 'exit-code'.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe unit nginx.service has entered the 'failed' state with result 'exit-code'.[0m
+ago 30 18:58:29 djp-HP-EliteBook-840-G5 systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start A high performance web server and a reverse proxy server.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has finished with a failure.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 229 and the job result is failed.[0m
+sep 08 18:19:20 djp-HP-EliteBook-840-G5 systemd[1]: Starting A high performance web server and a reverse proxy server...
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has begun execution[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has begun execution.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 98808.[0m
+sep 08 18:19:20 djp-HP-EliteBook-840-G5 nginx[3118179]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+sep 08 18:19:20 djp-HP-EliteBook-840-G5 nginx[3118180]: nginx: [warn] conflicting server name "http:" on 0.0.0.0:80, ignored
+sep 08 18:19:20 djp-HP-EliteBook-840-G5 nginx[3118180]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
+sep 08 18:19:20 djp-HP-EliteBook-840-G5 nginx[3118180]: nginx: [emerg] bind() to [::]:80 failed (98: Unknown error)
+sep 08 18:19:21 djp-HP-EliteBook-840-G5 nginx[3118180]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
+sep 08 18:19:21 djp-HP-EliteBook-840-G5 nginx[3118180]: nginx: [emerg] bind() to [::]:80 failed (98: Unknown error)
+sep 08 18:19:21 djp-HP-EliteBook-840-G5 nginx[3118180]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
+sep 08 18:19:21 djp-HP-EliteBook-840-G5 nginx[3118180]: nginx: [emerg] bind() to [::]:80 failed (98: Unknown error)
+sep 08 18:19:22 djp-HP-EliteBook-840-G5 nginx[3118180]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
+sep 08 18:19:22 djp-HP-EliteBook-840-G5 nginx[3118180]: nginx: [emerg] bind() to [::]:80 failed (98: Unknown error)
+sep 08 18:19:22 djp-HP-EliteBook-840-G5 nginx[3118180]: nginx: [emerg] bind() to 0.0.0.0:80 failed (98: Unknown error)
+sep 08 18:19:22 djp-HP-EliteBook-840-G5 nginx[3118180]: nginx: [emerg] bind() to [::]:80 failed (98: Unknown error)
+sep 08 18:19:23 djp-HP-EliteBook-840-G5 nginx[3118180]: nginx: [emerg] still could not bind()
+sep 08 18:19:23 djp-HP-EliteBook-840-G5 systemd[1]: [0;1;39m[0;1;31m[0;1;39mnginx.service: Control process exited, code=exited, status=1/FAILURE[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit process exited[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mAn ExecStart= process belonging to unit nginx.service has exited.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe process' exit code is 'exited' and its exit status is 1.[0m
+sep 08 18:19:23 djp-HP-EliteBook-840-G5 systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mnginx.service: Failed with result 'exit-code'.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: Unit failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe unit nginx.service has entered the 'failed' state with result 'exit-code'.[0m
+sep 08 18:19:23 djp-HP-EliteBook-840-G5 systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start A high performance web server and a reverse proxy server.[0m
+[0;38;5;245m░░ [0m[0;32mSubject: A start job for unit nginx.service has failed[0m
+[0;38;5;245m░░[0m [0;32mDefined-By: systemd[0m
+[0;38;5;245m░░[0m [0;32mSupport: http://www.ubuntu.com/support[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mA start job for unit nginx.service has finished with a failure.[0m
+[0;38;5;245m░░[0m [0;32m[0m
+[0;38;5;245m░░[0m [0;32mThe job identifier is 98808 and the job result is failed.[0m

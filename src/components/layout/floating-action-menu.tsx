@@ -1,13 +1,13 @@
-
 'use client'
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Calendar, Ticket, Plus, X } from 'lucide-react';
+import { Calendar, Ticket, Plus, X, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { CreateTicketModal } from '@/app/(app)/tickets/_components/create-ticket-modal';
 import { CalendarModal } from '@/components/layout/calendar-modal';
+import { AiAgentModal } from '@/components/layout/ai-agent-modal'; // Import the new modal
 import type { User, Client } from '@/lib/definitions';
 
 type FloatingActionMenuProps = {
@@ -19,6 +19,7 @@ export function FloatingActionMenu({ users, clients }: FloatingActionMenuProps) 
     const [isOpen, setIsOpen] = useState(false);
     const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
     const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);
+    const [isAiModalOpen, setIsAiModalOpen] = useState(false); // State for the new modal
 
     const toggleMenu = () => setIsOpen(prev => !prev);
     
@@ -34,6 +35,21 @@ export function FloatingActionMenu({ users, clients }: FloatingActionMenuProps) 
                         isOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
                     )}
                 >
+                    {/* AI Agent Button */}
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button
+                                variant="default"
+                                className={cn(fabStyle, "h-11 w-11 bg-gradient-to-br from-purple-500 to-indigo-600 text-white")}
+                                style={{ boxShadow: '0 4px 14px 0 hsl(var(--primary) / 25%)' }}
+                                onClick={() => setIsAiModalOpen(true)}
+                            >
+                                <Sparkles className="h-5 w-5" />
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent side="left"><p>Agente IA (Acción Rápida)</p></TooltipContent>
+                    </Tooltip>
+
                     <Tooltip>
                         <TooltipTrigger asChild>
                             <Button
@@ -83,6 +99,7 @@ export function FloatingActionMenu({ users, clients }: FloatingActionMenuProps) 
             {/* Modals are rendered here but triggered from the buttons */}
             <CreateTicketModal users={users} clients={clients} isOpen={isTicketModalOpen} onOpenChange={setIsTicketModalOpen} />
             <CalendarModal isOpen={isCalendarModalOpen} onOpenChange={setIsCalendarModalOpen} />
+            <AiAgentModal isOpen={isAiModalOpen} onOpenChange={setIsAiModalOpen} />
         </TooltipProvider>
     );
 }

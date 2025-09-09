@@ -2,7 +2,8 @@
 
 'use client'
 
-import { type WarehouseRequest, type Project, type User, addCommentToWarehouseRequest } from "@/lib/data";
+import { type WarehouseRequest, type Project, type User } from "@/lib/definitions";
+import { addCommentToWarehouseRequest } from "@/lib/data";
 import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Package, NotebookText, Truck } from "lucide-react";

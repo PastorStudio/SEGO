@@ -9,11 +9,8 @@ import {
   getInvoice,
   getWarehouseRequest,
   getUsers,
-  type Project,
-  type Task,
-  type Invoice,
-  type WarehouseRequest,
 } from '@/lib/data';
+import { type Project, type Task, type Invoice, type WarehouseRequest } from '@/lib/definitions';
 import { type CalendarEvent } from './calendar-modal';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -112,7 +109,7 @@ export function EventDetails({ event, isOpen, onOpenChange, setCalendarOpen }: E
           <div className="space-y-3">
              <div className="flex justify-between items-start">
                 <span>Estado:</span>
-                <Badge variant={projectStatusVariant[details.status]}>{projectStatusTranslate[details.status]}</Badge>
+                <Badge variant={projectStatusVariant[(details as Project).status]}>{projectStatusTranslate[(details as Project).status]}</Badge>
             </div>
             <div className="flex justify-between items-start">
                 <span>Cliente:</span>
@@ -129,7 +126,7 @@ export function EventDetails({ event, isOpen, onOpenChange, setCalendarOpen }: E
           <div className="space-y-3">
              <div className="flex justify-between items-start">
                 <span>Estado:</span>
-                <Badge variant={taskStatusVariant[details.status]}>{taskStatusTranslate[details.status]}</Badge>
+                <Badge variant={taskStatusVariant[(details as Task).status]}>{taskStatusTranslate[(details as Task).status]}</Badge>
             </div>
             <div className="flex justify-between items-start">
                 <span>Proyecto:</span>
@@ -146,7 +143,7 @@ export function EventDetails({ event, isOpen, onOpenChange, setCalendarOpen }: E
             <div className="space-y-3">
                 <div className="flex justify-between items-start">
                     <span>Estado:</span>
-                    <Badge variant={invoiceStatusVariant[details.status]}>{invoiceStatusTranslate[details.status]}</Badge>
+                    <Badge variant={invoiceStatusVariant[(details as Invoice).status]}>{invoiceStatusTranslate[(details as Invoice).status]}</Badge>
                 </div>
                  <div className="flex justify-between items-start">
                     <span>Cliente:</span>
@@ -167,7 +164,7 @@ export function EventDetails({ event, isOpen, onOpenChange, setCalendarOpen }: E
            <div className="space-y-3">
                 <div className="flex justify-between items-start">
                     <span>Estado:</span>
-                    <Badge variant={requestStatusVariant[details.status]}>{requestStatusTranslate[details.status]}</Badge>
+                    <Badge variant={requestStatusVariant[(details as WarehouseRequest).status]}>{requestStatusTranslate[(details as WarehouseRequest).status]}</Badge>
                 </div>
                 <div className="flex justify-between items-start">
                     <span>Proyecto:</span>

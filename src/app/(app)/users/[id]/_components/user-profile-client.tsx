@@ -61,7 +61,7 @@ export function UserProfileClient({ user, projects, tasks }: UserProfileClientPr
 
     const whatsAppMessage = `Hola como estas, ${user.name}?, necesito hablar contigo por favor llamame, lo antes posible, gracias.`;
     const encodedMessage = encodeURIComponent(whatsAppMessage);
-    const cleanPhoneNumber = user.phone.replace(/\D/g, '');
+    const cleanPhoneNumber = user.phone?.replace(/\D/g, '') || '';
     
     const handleSendMessage = () => {
         router.push(`/chat?user=${user.id}`);

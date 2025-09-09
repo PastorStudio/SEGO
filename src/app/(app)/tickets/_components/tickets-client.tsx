@@ -25,6 +25,8 @@ const statusVariant: { [key in Ticket['status']]: "default" | "secondary" | "des
   "In Progress": "default",
   "On Hold": "outline",
   "Closed": "secondary",
+  "Abierto": "default",
+  "En Progreso": "default",
 };
 
 const statusRowColorVariant: { [key in Ticket['status']]?: string } = {

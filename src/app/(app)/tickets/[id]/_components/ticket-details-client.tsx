@@ -2,7 +2,8 @@
 'use client'
 
 import { useState, useEffect, useMemo } from 'react';
-import { addCommentToTicket, updateTicket, type Ticket, type User, type Client } from "@/lib/definitions"
+import { addCommentToTicket, updateTicket } from "@/lib/data"
+import { type Ticket, type User, type Client } from "@/lib/definitions"
 import { PageHeader } from "@/components/page-header"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -37,6 +38,8 @@ const statusVariant: { [key in Ticket['status']]: "default" | "secondary" | "des
   "In Progress": "default",
   "On Hold": "outline",
   "Closed": "secondary",
+  "Abierto": "default",
+  "En Progreso": "default",
 };
 
 const getInitials = (name: string) => {
@@ -224,7 +227,7 @@ export function TicketDetailsClient({ initialTicket, users, clients }: TicketDet
                         <h4 className="text-sm font-semibold mb-2">Solicitante</h4>
                         <div className="flex items-center gap-3">
                             <Avatar className="h-10 w-10">
-                                {requester && 'avatar' in requester && <AvatarImage src={getAvatarUrl(requester.avatar)} alt={requester.name} />}
+                                {requester && 'avatar' in requester && typeof requester.avatar === 'string' && <AvatarImage src={getAvatarUrl(requester.avatar as string)} alt={requester.name} />}
                                 <AvatarFallback>
                                     {requester ? getInitials(requester.name) : '?'}
                                 </AvatarFallback>

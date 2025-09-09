@@ -1,20 +1,42 @@
-
-
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { getTasks, getWarehouseRequests, type Project, type Task, type WarehouseRequest, type User } from "@/lib/definitions"
-import { PageHeader } from "@/components/page-header"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { ArrowLeft, Edit, Package, ListTodo } from "lucide-react"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import {
+  getTasks,
+  getWarehouseRequests,
+  getFirstSuperAdmin,
+  addTask,
+  addTicket,
+  addWarehouseRequest,
+  updateTaskStatus
+} from "@/lib/data";
+import { generateProjectSuggestions } from "@/lib/ai";
+import { type Project, type Task, type WarehouseRequest, type User, type Ticket } from "@/lib/definitions";
+import { PageHeader } from "@/components/page-header";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ArrowLeft, Edit, Package, ListTodo, Brain, MoreHorizontal } from "lucide-react";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ClientDate } from "@/components/client-only";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuPortal,
+} from "@/components/ui/dropdown-menu";
 
-const POLLING_INTERVAL = 5000; // 5 seconds
+const POLLING_INTERVAL = 30000; // 30 seconds
 
 const statusVariant: { [key in Project['status']]: "default" | "secondary" | "destructive" | "outline" } = {
   "On Track": "default",
@@ -54,6 +76,20 @@ const requestStatusTranslate: { [key in WarehouseRequest['status']]: string } = 
   "Completed": "Completado",
 };
 
+const translatePriority = (priority: 'Baja' | 'Media' | 'Alta' | undefined): 'Low' | 'Medium' | 'High' | 'Urgent' => {
+  if (!priority) return 'Medium';
+  switch (priority) {
+    case 'Baja':
+      return 'Low';
+    case 'Media':
+      return 'Medium';
+    case 'Alta':
+      return 'High';
+    default:
+      return 'Medium';
+  }
+};
+
 const getInitials = (name: string) => {
     if (!name) return ''
     const names = name.split(' ');
@@ -70,13 +106,23 @@ type ProjectDetailsClientProps = {
     allUsers: User[];
 }
 
+type AISuggestions = {
+  tasks?: { title: string; dueDate?: string; }[];
+  tickets?: { title: string; description?: string; priority?: 'Baja' | 'Media' | 'Alta'; }[];
+  warehouseRequests?: { itemName: string; quantity: number; }[];
+};
+
 export function ProjectDetailsClient({ initialProject, initialTasks, initialWarehouseRequests, allUsers }: ProjectDetailsClientProps) {
   const [project, setProject] = useState<Project>(initialProject);
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
   const [warehouseRequests, setWarehouseRequests] = useState<WarehouseRequest[]>(initialWarehouseRequests);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isAiModalOpen, setIsAiModalOpen] = useState(false);
+  const [aiSuggestions, setAiSuggestions] = useState('');
+  const [parsedSuggestions, setParsedSuggestions] = useState<AISuggestions | null>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
+  const [isUpdatingTask, setIsUpdatingTask] = useState<string | null>(null);
 
-  // Memoize team members to avoid re-calculating on every render
   const teamMembers = useMemo(() => 
     allUsers.filter(user => project.team.includes(user.id)),
     [allUsers, project.team]
@@ -84,7 +130,6 @@ export function ProjectDetailsClient({ initialProject, initialTasks, initialWare
   
   useEffect(() => {
     const pollData = async () => {
-      // No need to show loading spinner for background polling
       const allTasks = await getTasks();
       const allRequests = await getWarehouseRequests();
       setTasks(allTasks.filter(task => task.projectId === project.id));
@@ -93,10 +138,148 @@ export function ProjectDetailsClient({ initialProject, initialTasks, initialWare
 
     const intervalId = setInterval(pollData, POLLING_INTERVAL);
 
-    // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
   }, [project.id]);
 
+  const handleGenerateClick = async () => {
+    setIsAiModalOpen(true);
+    setIsGenerating(true);
+    setParsedSuggestions(null);
+    setAiSuggestions("Generando sugerencias, por favor espera...");
+
+    const projectContext = `
+      Project Name: ${project.name}
+      Client: ${project.client}
+      Due Date: ${project.dueDate}
+      Current Tasks: ${tasks.map(t => t.title).join(', ')}
+    `;
+    
+    try {
+      const jsonString = await generateProjectSuggestions(projectContext);
+      const cleanedJsonString = jsonString.replace(/```json\n|```/g, '').trim();
+      const suggestions: AISuggestions = JSON.parse(cleanedJsonString);
+      
+      setParsedSuggestions(suggestions);
+
+      let formattedText = "Sugerencias de la IA:\n\n";
+      if (suggestions.tasks && suggestions.tasks.length > 0) {
+        formattedText += "Tareas Sugeridas:\n";
+        suggestions.tasks.forEach((task: any) => {
+          formattedText += `- Título: ${task.title}, Fecha Límite: ${task.dueDate || 'No especificada'}\n`;
+        });
+        formattedText += "\n";
+      }
+      if (suggestions.tickets && suggestions.tickets.length > 0) {
+        formattedText += "Tickets Sugeridos:\n";
+        suggestions.tickets.forEach((ticket: any) => {
+          formattedText += `- Título: ${ticket.title}, Prioridad: ${ticket.priority || 'No especificada'}\n  Descripción: ${ticket.description || ''}\n`;
+        });
+        formattedText += "\n";
+      }
+      if (suggestions.warehouseRequests && suggestions.warehouseRequests.length > 0) {
+        formattedText += "Solicitudes de Almacén Sugeridas:\n";
+        suggestions.warehouseRequests.forEach((req: any) => {
+          formattedText += `- Artículo: ${req.itemName}, Cantidad: ${req.quantity || 1}\n`;
+        });
+      }
+      setAiSuggestions(formattedText.trim());
+
+    } catch (error: any) {
+      console.error("Error processing AI suggestions:", error);
+      setAiSuggestions("Error al procesar las sugerencias de IA. La respuesta no fue un JSON válido o la API falló.");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handleCreateItems = async () => {
+    if (!parsedSuggestions) {
+      alert("No hay sugerencias para crear.");
+      return;
+    }
+    
+    setIsCreating(true);
+    
+    try {
+      const adminUser = await getFirstSuperAdmin();
+      if (!adminUser) {
+        throw new Error("No se pudo encontrar un usuario Super-Admin para asignar las tareas.");
+      }
+
+      let itemsCreated = false;
+
+      if (parsedSuggestions.tasks) {
+        for (const task of parsedSuggestions.tasks) {
+          await addTask({
+            projectId: project.id,
+            title: task.title,
+            dueDate: task.dueDate || new Date().toISOString().split('T')[0],
+            status: 'To Do'
+          }, adminUser.name);
+          itemsCreated = true;
+        }
+      }
+
+      if (parsedSuggestions.tickets) {
+        for (const ticket of parsedSuggestions.tickets) {
+          await addTicket({
+            title: ticket.title,
+            description: ticket.description || '',
+            priority: translatePriority(ticket.priority),
+            status: 'Open',
+            requesterId: adminUser.id,
+            requesterType: 'user',
+            assigneeId: undefined,
+          });
+          itemsCreated = true;
+        }
+      }
+
+      if (parsedSuggestions.warehouseRequests && parsedSuggestions.warehouseRequests.length > 0) {
+        const warehouseItems = parsedSuggestions.warehouseRequests.map(item => ({
+          id: crypto.randomUUID(),
+          name: item.itemName,
+          quantity: item.quantity
+        }));
+
+        await addWarehouseRequest({
+          projectId: project.id,
+          requesterId: adminUser.id,
+          status: 'Pending',
+          requestDate: new Date().toISOString().split('T')[0],
+          requiredByDate: new Date().toISOString().split('T')[0],
+          items: warehouseItems,
+          notes: 'Generado por IA'
+        }, adminUser.name);
+        itemsCreated = true;
+      }
+
+      if (itemsCreated) {
+        alert("¡Los elementos sugeridos han sido creados exitosamente!");
+      } else {
+        alert("No se encontraron elementos para crear en las sugerencias.");
+      }
+
+    } catch (error) {
+      console.error("Error creating items from AI suggestions:", error);
+      alert("Ocurrió un error al crear los elementos. Revisa la consola para más detalles.");
+    } finally {
+      setIsCreating(false);
+      setIsAiModalOpen(false);
+    }
+  };
+
+  const handleStatusChange = async (taskId: string, status: Task['status']) => {
+    setIsUpdatingTask(taskId);
+    try {
+      await updateTaskStatus(taskId, status);
+    } catch (error) {
+      console.error("Failed to update task status", error);
+      alert("Error al actualizar el estado de la tarea.");
+    } finally {
+      setIsUpdatingTask(null);
+    }
+  };
 
   return (
     <>
@@ -113,6 +296,9 @@ export function ProjectDetailsClient({ initialProject, initialTasks, initialWare
                     <Edit className="mr-2 h-4 w-4" />
                     Editar
                 </Link>
+            </Button>
+            <Button onClick={handleGenerateClick} disabled={isGenerating || isCreating}>
+              {isGenerating ? "Generando..." : <><Brain className="mr-2 h-4 w-4" /> Generar con IA</>}
             </Button>
         </div>
       </PageHeader>
@@ -159,6 +345,7 @@ export function ProjectDetailsClient({ initialProject, initialTasks, initialWare
                                 <TableHead>Tarea</TableHead>
                                 <TableHead>Estado</TableHead>
                                 <TableHead className="text-right">Fecha Límite</TableHead>
+                                <TableHead className="text-right">Acciones</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -167,10 +354,41 @@ export function ProjectDetailsClient({ initialProject, initialTasks, initialWare
                                     <TableCell className="font-medium">{task.title}</TableCell>
                                     <TableCell><Badge variant={taskStatusVariant[task.status]}>{taskStatusTranslate[task.status]}</Badge></TableCell>
                                     <TableCell className="text-right"><ClientDate value={task.dueDate} /></TableCell>
+                                    <TableCell className="text-right">
+                                      {isUpdatingTask === task.id ? (
+                                        <p className="text-xs text-muted-foreground">Actualizando...</p>
+                                      ) : (
+                                        <DropdownMenu>
+                                          <DropdownMenuTrigger asChild>
+                                            <Button variant="ghost" className="h-8 w-8 p-0">
+                                              <span className="sr-only">Abrir menú</span>
+                                              <MoreHorizontal className="h-4 w-4" />
+                                            </Button>
+                                          </DropdownMenuTrigger>
+                                          <DropdownMenuContent align="end">
+                                            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+                                            <DropdownMenuItem asChild>
+                                              <Link href={`/tasks/${task.id}`}>Ver/Editar Detalles</Link>
+                                            </DropdownMenuItem>
+                                            <DropdownMenuSeparator />
+                                            <DropdownMenuSub>
+                                              <DropdownMenuSubTrigger>Cambiar Estado</DropdownMenuSubTrigger>
+                                              <DropdownMenuPortal>
+                                                <DropdownMenuSubContent>
+                                                  <DropdownMenuItem onSelect={() => handleStatusChange(task.id, 'To Do')}>Por Hacer</DropdownMenuItem>
+                                                  <DropdownMenuItem onSelect={() => handleStatusChange(task.id, 'In Progress')}>En Progreso</DropdownMenuItem>
+                                                  <DropdownMenuItem onSelect={() => handleStatusChange(task.id, 'Done')}>Hecho</DropdownMenuItem>
+                                                </DropdownMenuSubContent>
+                                              </DropdownMenuPortal>
+                                            </DropdownMenuSub>
+                                          </DropdownMenuContent>
+                                        </DropdownMenu>
+                                      )}
+                                    </TableCell>
                                 </TableRow>
                             )) : (
                                 <TableRow>
-                                    <TableCell colSpan={3} className="text-center">No hay tareas para este proyecto.</TableCell>
+                                    <TableCell colSpan={4} className="text-center">No hay tareas para este proyecto.</TableCell>
                                 </TableRow>
                             )}
                         </TableBody>
@@ -197,7 +415,7 @@ export function ProjectDetailsClient({ initialProject, initialTasks, initialWare
                                 <TableRow key={req.id}>
                                     <TableCell className="font-medium">{req.id}</TableCell>
                                     <TableCell><Badge variant={requestStatusVariant[req.status]}>{requestStatusTranslate[req.status]}</Badge></TableCell>
-                                    <TableCell className="text-center">{req.items.length}</TableCell>
+                                    <TableCell>{Array.isArray(req.items) ? req.items.map((item: any) => `${item.itemName} (x${item.quantity})`).join(', ') : ''}</TableCell>
                                     <TableCell className="text-right"><ClientDate value={req.requiredByDate} /></TableCell>
                                 </TableRow>
                            )) : (
@@ -235,6 +453,37 @@ export function ProjectDetailsClient({ initialProject, initialTasks, initialWare
             </Card>
         </div>
       </div>
+      <Dialog open={isAiModalOpen} onOpenChange={setIsAiModalOpen}>
+        <DialogContent className="sm:max-w-[600px]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2"><Brain className="h-5 w-5" /> Sugerencias de IA</DialogTitle>
+            <DialogDescription>
+              Revisa las sugerencias generadas por la IA. Puedes crearlas automáticamente en el sistema.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            {isGenerating ? (
+              <p className="text-center text-muted-foreground">Generando sugerencias, por favor espera...</p>
+            ) : (
+              <Textarea
+                value={aiSuggestions}
+                readOnly
+                rows={15}
+                className="min-h-[300px]"
+              />
+            )}
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsAiModalOpen(false)} disabled={isCreating}>Cerrar</Button>
+            <Button 
+              onClick={handleCreateItems} 
+              disabled={isGenerating || isCreating || !parsedSuggestions}
+            >
+              {isCreating ? "Creando..." : "Crear Elementos Sugeridos"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   )
 }

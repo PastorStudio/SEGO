@@ -1,7 +1,8 @@
 
 'use client'
 
-import { type Project, type User, getUsers } from "@/lib/data"
+import { getUsers } from "@/lib/data"
+import type { Project, User } from "@/lib/definitions";
 import { Card, CardContent } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"

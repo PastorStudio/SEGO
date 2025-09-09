@@ -3,7 +3,7 @@ import { getTicket, getUsers, getClients } from "@/lib/data"
 import { notFound } from "next/navigation"
 import { TicketDetailsClient } from "./_components/ticket-details-client";
 
-export default async function TicketDetailsPage({ params }: { params: { id: string } }) {
+export default async function TicketDetailsPage({ params }: { params: any }) {
   const ticketData = await getTicket(params.id)
   if (!ticketData) notFound()
 

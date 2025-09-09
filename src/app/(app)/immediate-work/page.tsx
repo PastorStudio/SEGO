@@ -4,7 +4,7 @@
 import { useState, useEffect } from "react";
 import { PageHeader } from "@/components/page-header"
 import { Card, CardContent } from "@/components/ui/card"
-import { getUsers, getImmediateTasks, getProjects, type User, type ImmediateTask, addImmediateTask, deleteImmediateTask, updateImmediateTaskStatus, getProject, linkImmediateTaskToProject, addCommentToImmediateTask } from "@/lib/data"
+import { getUsers, getImmediateTasks, getProjects, addImmediateTask, deleteImmediateTask, updateImmediateTaskStatus, getProject, linkImmediateTaskToProject, addCommentToImmediateTask } from "@/lib/data"
 import { Button } from "@/components/ui/button"
 import { PlusCircle, X, Check, ClipboardList, Info, Link2 } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -21,7 +21,7 @@ import { Label } from "@/components/ui/label"
 import { useAuth } from "@/hooks/use-auth.tsx";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import type { Project } from "@/lib/definitions";
+import type { Project, User, ImmediateTask } from "@/lib/definitions";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";

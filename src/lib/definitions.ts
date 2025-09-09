@@ -120,6 +120,15 @@ export type ImmediateTask = {
   comments?: Comment[];
 }
 
+export type TimeEntry = {
+  id: string;
+  user_id: string;
+  clock_in_time: string; // ISO string
+  clock_out_time?: string; // ISO string, optional
+  duration_minutes?: number; // optional, calculated
+  created_at: string; // ISO string
+};
+
 export type WarehouseRequestItem = {
   id: string;
   name: string;
@@ -140,7 +149,7 @@ export type Ticket = {
   requesterId: string;
   requesterType: 'user' | 'client';
   assigneeId?: string;
-  status: 'Open' | 'In Progress' | 'Closed' | 'On Hold';
+  status: 'Open' | 'In Progress' | 'Closed' | 'On Hold' | 'Abierto' | 'En Progreso';
   priority: 'Low' | 'Medium' | 'High' | 'Urgent';
   createdAt: string;
   closedAt?: string;

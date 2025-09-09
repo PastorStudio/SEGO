@@ -3,9 +3,9 @@ import { getWarehouseRequests } from '@/lib/data';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: any
 ) {
   const all = await getWarehouseRequests();
-  const filtered = all.filter(r => r.projectId === params.id);
+  const filtered = all.filter(r => r.projectId === context.params.id);
   return NextResponse.json(filtered);
 }

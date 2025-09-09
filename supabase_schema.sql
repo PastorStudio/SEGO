@@ -1,4 +1,3 @@
-
 -- Drop tables if they exist to start fresh
 DROP TABLE IF EXISTS "privateChatMessages";
 DROP TABLE IF EXISTS "generalChatMessages";
@@ -10,12 +9,13 @@ DROP TABLE IF EXISTS tasks;
 DROP TABLE IF EXISTS invoices;
 DROP TABLE IF EXISTS clients;
 DROP TABLE IF EXISTS projects;
+DROP TABLE IF EXISTS time_entries; -- Added this line
 DROP TABLE IF EXISTS permissions;
 DROP TABLE IF EXISTS users;
 
 -- Create the users table
 CREATE TABLE users (
-    id TEXT PRIMARY KEY,
+    id UUID PRIMARY KEY,
     name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
     phone TEXT,
@@ -30,6 +30,17 @@ CREATE TABLE users (
     "position" TEXT,
     "hireDate" DATE,
     "workStatus" TEXT
+);
+
+-- Create time_entries table for clock in/out
+CREATE TABLE time_entries (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID NOT NULL,
+    clock_in_time TIMESTAMPTZ NOT NULL,
+    clock_out_time TIMESTAMPTZ,
+    duration_minutes INTEGER,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- Create other tables
@@ -48,14 +59,47 @@ CREATE TABLE permissions ( id INT PRIMARY KEY, data JSONB );
 -- Insert the default permissions row
 INSERT INTO permissions (id, data) VALUES (1, '{"Super-Admin":{"Dashboard":true,"Analytics":true,"Recursos Humanos":true,"Administración y Supervisión":true,"Trabajo inmediato":true,"Tickets":true,"Projects":true,"Tasks":true,"Chat":true,"Invoices":true,"Clients":true,"Services":true,"Warehouse":true,"Montaje":true,"Reparto":true,"Cuentas por Cobrar":true,"Nuestras Fiestas":true,"Users & Companies":true,"Settings":true},"Admin":{"Dashboard":true,"Analytics":true,"Recursos Humanos":true,"Administración y Supervisión":true,"Trabajo inmediato":true,"Tickets":true,"Projects":true,"Tasks":true,"Chat":true,"Invoices":true,"Clients":true,"Services":true,"Warehouse":true,"Montaje":true,"Reparto":true,"Cuentas por Cobrar":true,"Nuestras Fiestas":true,"Users & Companies":true,"Settings":true},"Agent":{"Dashboard":true,"Analytics":false,"Recursos Humanos":false,"Administración y Supervisión":false,"Trabajo inmediato":true,"Tickets":true,"Projects":true,"Tasks":true,"Chat":true,"Invoices":true,"Clients":true,"Services":true,"Warehouse":true,"Montaje":true,"Reparto":true,"Cuentas por Cobrar":false,"Nuestras Fiestas":true,"Users & Companies":false,"Settings":false},"Viewer":{"Dashboard":false,"Analytics":false,"Recursos Humanos":false,"Administración y Supervisión":false,"Trabajo inmediato":true,"Tickets":true,"Projects":false,"Tasks":true,"Chat":true,"Invoices":false,"Clients":false,"Services":false,"Warehouse":true,"Montaje":true,"Reparto":true,"Cuentas por Cobrar":false,"Nuestras Fiestas":true,"Users & Companies":false,"Settings":false}}');
 
--- Insert the default users
-INSERT INTO users (id, name, email, phone, password, role, company, status, "lastSeen", "birthDate", position, "workStatus", "hireDate")
-VALUES
-('user-super-admin-01', 'Super Admin', 'admin@segoeventos.com', '+12016671859', 'Mi123456@', 'Super-Admin', 'Sego Eventos Inc.', 'offline', '2025-09-03T02:19:30.654Z', '1988-07-22', 'Administrador de Sistema', 'Activo', '2010-01-01'),
-('user-1756861699390', 'Sury Moreno', 'Suri.moreno@segoeventos.com', '+18096067888', 'Amelia170806', 'Admin', 'Sego Eventos Inc.', 'offline', '2025-09-03T02:23:16.614Z', '2025-09-02', 'Gerente General', 'Activo', '2010-01-01'),
-('user-1756862405533', 'Raymond Perez', 'raymond@segoeventos.com', '+18498802678', 'Raymond123', 'Agent', 'Sego Eventos Inc.', 'offline', '2025-09-03T01:38:18.777Z', '2004-09-02', 'Agente de Ventas', 'Activo', null),
-('user-1756863656286', 'Almacenes Sego', 'almacen@segoeventos.com', '+18097661121', 'almacen123', 'Viewer', 'Sego Eventos Inc.', 'offline', '2025-09-03T01:44:21.195Z', '2025-09-02', 'Encargado de Almacen', 'Activo', null);
+
 
 -- Enable Row Level Security and allow public reads on users table for login
 ALTER TABLE public.users ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Public users are viewable by everyone." ON public.users FOR SELECT USING ( true );
+
+-- WhatsApp Integration Tables
+
+-- Stores individual chat sessions/conversations
+CREATE TABLE whatsapp_chats (
+    jid TEXT PRIMARY KEY, -- The WhatsApp ID for the user or group
+    name TEXT, -- The contact's or group's name
+    last_message_timestamp TIMESTAMPTZ,
+    unread_count INT DEFAULT 0,
+    archived BOOLEAN DEFAULT FALSE
+);
+
+-- Stores all incoming and outgoing messages
+CREATE TABLE whatsapp_messages (
+    id BIGSERIAL PRIMARY KEY,
+    message_id TEXT UNIQUE NOT NULL, -- The unique ID from WhatsApp
+    chat_jid TEXT NOT NULL REFERENCES whatsapp_chats(jid) ON DELETE CASCADE,
+    sender_jid TEXT, -- JID of the sender, can be the user or the contact
+    is_from_me BOOLEAN NOT NULL,
+    message_type TEXT NOT NULL, -- e.g., 'text', 'image', 'audio', 'video', 'document'
+    text_content TEXT,
+    media_url TEXT, -- URL to the file in Supabase Storage
+    mime_type TEXT,
+    file_name TEXT,
+    timestamp TIMESTAMPTZ NOT NULL
+);
+
+-- Stores internal notes for a WhatsApp contact, visible only to system users
+CREATE TABLE whatsapp_contact_notes (
+    id BIGSERIAL PRIMARY KEY,
+    contact_jid TEXT NOT NULL, -- The WhatsApp ID of the contact
+    author_user_id UUID NOT NULL REFERENCES users(id) ON DELETE SET NULL, -- The system user who wrote the note
+    note_content TEXT NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Add indexes for performance
+CREATE INDEX idx_whatsapp_messages_chat_jid ON whatsapp_messages(chat_jid);
+CREATE INDEX idx_whatsapp_contact_notes_contact_jid ON whatsapp_contact_notes(contact_jid);

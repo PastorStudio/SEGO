@@ -24,7 +24,8 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { useToast } from "@/hooks/use-toast"
-import { type Client, deleteClient } from "@/lib/data"
+import { deleteClient } from "@/lib/data"
+import { type Client } from "@/lib/definitions" // Correct import for Client
 
 
 export function ClientActions({ client }: { client: Client }) {

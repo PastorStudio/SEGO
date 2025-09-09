@@ -28,7 +28,8 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-import { type Task, type Project, addTask } from "@/lib/data";
+import { addTask } from "@/lib/data";
+import type { Task, Project } from "@/lib/definitions";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/use-auth.tsx";

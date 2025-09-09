@@ -1,10 +1,9 @@
-
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import type { Project, User, Invoice, Task, ImmediateTask, Permissions, Client, WarehouseRequest, Notification, Comment, ChatMessage, PrivateChats, Ticket, SearchResult } from './definitions';
+import type { Project, User, Invoice, Task, ImmediateTask, Permissions, Client, WarehouseRequest, Notification, Comment, ChatMessage, PrivateChats, Ticket, SearchResult, TimeEntry } from './definitions';
 import { initialPermissions } from './definitions';
-import { supabase } from './supabase-client';
+import { supabaseAdmin as supabase } from './supabase-client';
 
 // --- Helper Functions ---
 async function handleError(error: any, context: string) {
@@ -16,24 +15,46 @@ async function handleError(error: any, context: string) {
 // --- Data Access Functions ---
 
 export async function loginAction(credentials: { email: string, password?: string }) {
-    const { data, error } = await supabase
-        .from('users')
-        .select('*')
-        .eq('email', credentials.email)
-        .limit(1)
-        .single(); // Use limit(1).single() for safety.
+    try {
+        if (!credentials.password) {
+            return { success: false, error: 'Password is required.' };
+        }
 
-    if (error && error.code !== 'PGRST116') { // PGRST116 means no rows found, which is not an error here.
+        // Authenticate with Supabase Auth
+        const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+            email: credentials.email,
+            password: credentials.password,
+        });
+
+        if (authError) {
+            console.error('Supabase Auth login error:', authError);
+            return { success: false, error: authError.message || 'Authentication failed.' };
+        }
+
+        // Fetch user from public.users table using the authenticated user's ID
+        const { data: userData, error: userError } = await supabase
+            .from('users')
+            .select('*')
+            .eq('id', authData.user.id) // Use the ID from Supabase Auth
+            .limit(1)
+            .single();
+
+        if (userError) {
+            console.error('Error fetching user from public.users:', userError);
+            return { success: false, error: 'Failed to retrieve user profile.' };
+        }
+
+        if (!userData) {
+            return { success: false, error: 'User profile not found.' };
+        }
+
+        // Update user status in public.users table
+        await setUserStatus(userData.id, 'online');
+        return { success: true, user: userData };
+    } catch (error) {
         console.error('Login error:', error);
-        return { success: false, error: 'Database error during login.' };
+        return { success: false, error: 'An unexpected error occurred during login.' };
     }
-    
-    if (!data || data.password !== credentials.password) {
-        return { success: false, error: 'Invalid credentials' };
-    }
-
-    await setUserStatus(data.id, 'online');
-    return { success: true, user: data };
 }
 
 
@@ -237,7 +258,8 @@ export async function addProject(project: Omit<Project, 'id'>, userName: string)
 };
 
 export async function updateProject(updatedProject: Project): Promise<void> {
-  const { error } = await supabase.from('projects').update(updatedProject).eq('id', updatedProject.id);
+  const { id, ...updateData } = updatedProject;
+  const { error } = await supabase.from('projects').update(updateData).eq('id', id);
   if (error) await handleError(error, 'updateProject');
 
   await addNotification({ message: `El proyecto "${updatedProject.name}" ha sido actualizado.`, link: `/projects/${updatedProject.id}` });
@@ -382,6 +404,32 @@ export async function deleteInvoice(invoiceId: string): Promise<void> {
     revalidatePath('/invoices');
 }
 
+export async function updateTaskStatus(taskId: string, newStatus: Task['status']): Promise<void> {
+    const { error } = await supabase.from('tasks').update({ status: newStatus }).eq('id', taskId);
+    if (error) await handleError(error, 'updateTaskStatus');
+
+    const task = await getTask(taskId);
+    if (task) {
+        await addNotification({ message: `El estado de la tarea "${task.title}" cambió a ${newStatus}.`, link: `/projects/${task.projectId}` });
+        revalidatePath(`/projects/${task.projectId}`);
+        revalidatePath('/dashboard');
+    }
+}
+
+export async function updateTask(updatedTask: Partial<Task>): Promise<void> {
+    if (!updatedTask.id) throw new Error("Task ID is required for updates.");
+    const { error } = await supabase.from('tasks').update(updatedTask).eq('id', updatedTask.id);
+    if (error) await handleError(error, 'updateTask');
+
+    const task = await getTask(updatedTask.id);
+    if (task) {
+        await addNotification({ message: `La tarea "${task.title}" ha sido actualizada.`, link: `/projects/${task.projectId}` });
+        revalidatePath(`/projects/${task.projectId}`);
+        revalidatePath('/tasks');
+        revalidatePath(`/tasks/${task.id}`);
+    }
+}
+
 export async function updateInvoiceStatus(invoiceId: string, newStatus: Invoice['status'], userName: string): Promise<void> {
     const { error } = await supabase.from('invoices').update({ status: newStatus }).eq('id', invoiceId);
     if (error) await handleError(error, 'updateInvoiceStatus');
@@ -455,7 +503,10 @@ export async function updateWarehouseRequest(requestId: string, newStatus: Wareh
 
 async function addComment(entityId: string, content: string, userId: string, tableName: string, linkPath: string, entityName: string): Promise<Comment> {
     const { data: entity, error: getError } = await supabase.from(tableName).select('comments').eq('id', entityId).single();
-    if (getError || !entity) await handleError(getError, `addComment:get:${tableName}`);
+    if (getError || !entity) {
+        await handleError(getError, `addComment:get:${tableName}`);
+        throw new Error(`Failed to add comment: entity not found for table ${tableName}`); // Throw an error
+    }
     
     const comments = JSON.parse(entity.comments || '[]');
     const newComment: Comment = { id: `comment-${Date.now()}`, userId, content, createdAt: new Date().toISOString() };
@@ -516,6 +567,7 @@ export async function addTicket(ticketData: Omit<Ticket, 'id' | 'createdAt' | 'c
     return {...data, comments: []};
 }
 
+
 export async function updateTicket(updatedTicket: Ticket): Promise<void> {
     const updateData = {
         ...updatedTicket,
@@ -528,6 +580,63 @@ export async function updateTicket(updatedTicket: Ticket): Promise<void> {
     revalidatePath(`/tickets/${updatedTicket.id}`);
 }
 
+// --- Time Entry Functions ---
+
+export async function clockIn(userId: string): Promise<TimeEntry> {
+    const newEntry: Omit<TimeEntry, 'id' | 'created_at'> = {
+        user_id: userId,
+        clock_in_time: new Date().toISOString(),
+    };
+    const { data, error } = await supabase.from('time_entries').insert(newEntry).select().single();
+    if (error) await handleError(error, 'clockIn');
+    revalidatePath('/dashboard'); // Revalidate dashboard to show status
+    return data;
+}
+
+export async function clockOut(timeEntryId: string, userId: string): Promise<TimeEntry> {
+    const now = new Date();
+    const { data: existingEntry, error: getError } = await supabase.from('time_entries').select('*').eq('id', timeEntryId).single();
+    if (getError || !existingEntry) await handleError(getError, 'clockOut:get');
+
+    const clockInTime = new Date(existingEntry.clock_in_time);
+    const durationMinutes = Math.round((now.getTime() - clockInTime.getTime()) / (1000 * 60));
+
+    const { data, error } = await supabase.from('time_entries').update({
+        clock_out_time: now.toISOString(),
+        duration_minutes: durationMinutes,
+    }).eq('id', timeEntryId).select().single();
+    if (error) await handleError(error, 'clockOut:update');
+    revalidatePath('/dashboard'); // Revalidate dashboard to show status
+    return data;
+}
+
+export async function getPendingClockIn(userId: string): Promise<TimeEntry | undefined> {
+    const { data, error } = await supabase
+        .from('time_entries')
+        .select('*')
+        .eq('user_id', userId)
+        .is('clock_out_time', null)
+        .order('clock_in_time', { ascending: false })
+        .limit(1)
+        .single();
+    if (error && error.code !== 'PGRST116') await handleError(error, 'getPendingClockIn');
+    return data || undefined;
+}
+
+export async function getWorkSessions(userId: string, startDate?: Date, endDate?: Date): Promise<TimeEntry[]> {
+    let query = supabase.from('time_entries').select('*').eq('user_id', userId).order('clock_in_time', { ascending: false });
+
+    if (startDate) {
+        query = query.gte('clock_in_time', startDate.toISOString());
+    }
+    if (endDate) {
+        query = query.lte('clock_in_time', endDate.toISOString());
+    }
+
+    const { data, error } = await query;
+    if (error) await handleError(error, 'getWorkSessions');
+    return data || [];
+}
 
 export async function searchGlobal(query: string): Promise<SearchResult[]> {
   const normalizedQuery = `%${query}%`;
@@ -557,4 +666,52 @@ export async function searchGlobal(query: string): Promise<SearchResult[]> {
   if (tickets) results.push(...tickets.map(t => ({ id: t.id, type: 'tickets', title: t.title, description: `Ticket ${t.id}`, url: `/tickets/${t.id}` } as SearchResult)));
 
   return results;
+}
+
+export async function getProjectSummaryData(projectNameOrId: string): Promise<any> {
+    let project: Project | undefined;
+
+    // Try to find by ID first
+    project = await getProject(projectNameOrId);
+
+    // If not found by ID, try to find by name (case-insensitive partial match)
+    if (!project) {
+        const { data: projectsFound, error } = await supabase.from('projects')
+            .select('id, name') // Only select ID and name for efficiency
+            .ilike('name', `%${projectNameOrId}%`);
+        
+        if (error) await handleError(error, 'getProjectSummaryData:getProjectByName');
+
+        if (projectsFound && projectsFound.length === 1) {
+            // Exactly one match found by name
+            project = await getProject(projectsFound[0].id); // Fetch full project details
+        } else if (projectsFound && projectsFound.length > 1) {
+            // Multiple matches found
+            return { ambiguous: true, matches: projectsFound.map(p => p.name) };
+        }
+        // If 0 matches, project remains undefined, and it will return null later
+    }
+
+    if (!project) {
+        return null; // Project not found
+    }
+
+    const projectId = project.id;
+
+    // Fetch related tasks and warehouse requests
+    const { data: tasks, error: tasksError } = await supabase.from('tasks')
+        .select('*')
+        .eq('projectId', projectId);
+    if (tasksError) await handleError(tasksError, 'getProjectSummaryData:getTasks');
+
+    const { data: warehouseRequests, error: wrError } = await supabase.from('warehouseRequests')
+        .select('*')
+        .eq('projectId', projectId);
+    if (wrError) await handleError(wrError, 'getProjectSummaryData:getWarehouseRequests');
+
+    return {
+        project,
+        tasks: tasks || [],
+        warehouseRequests: warehouseRequests || []
+    };
 }

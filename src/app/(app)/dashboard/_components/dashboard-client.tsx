@@ -68,20 +68,28 @@ export function DashboardClient({ projects, tasks, clients, warehouseRequests, i
     ).length;
 
     const pendingTickets = tickets.filter(
-        t => t.status === 'Open' || t.status === 'In Progress'
+        t => t.status === 'Abierto' || t.status === 'En Progreso'
     ).length;
 
-    const pendingTasks = immediateTasks.filter(
+    const pendingProjectTasks = tasks.filter(
+        t => t.status === 'In Progress' || t.status === 'To Do'
+    ).length;
+
+    const pendingImmediateTasks = immediateTasks.filter(
         t => t.status === 'pending'
     ).length;
 
+    const pendingTasks = pendingProjectTasks + pendingImmediateTasks;
+
+    const pendingProjects = projects.filter(p => p.status !== 'Completed').length;
+
     return {
-      totalInvoices: invoices.length,
+      pendingProjects,
       unpaidInvoices,
       pendingTickets,
       pendingTasks,
     }
-  }, [invoices, tickets, immediateTasks]);
+  }, [projects, invoices, tickets, immediateTasks, tasks]);
 
   const recentActivity = useMemo(() => {
     const newTasks: RecentActivityItem[] = tasks.map(t => ({ ...t, type: 'task', sortDate: t.dueDate }));
@@ -210,8 +218,8 @@ export function DashboardClient({ projects, tasks, clients, warehouseRequests, i
                 <FileText className="h-8 w-8" />
             </div>
             <div>
-                <p className="text-sm font-bold">Órdenes Totales</p>
-                <p className="text-2xl font-bold">{kpis.totalInvoices}</p>
+                <p className="text-sm font-bold">Proyectos Pendientes</p>
+                <p className="text-2xl font-bold">{kpis.pendingProjects}</p>
             </div>
           </CardContent>
         </Card>

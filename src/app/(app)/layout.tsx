@@ -139,7 +139,7 @@ function LoadingSkeleton() {
     )
 }
 
-const POLLING_INTERVAL = 5000; // 5 seconds
+const POLLING_INTERVAL = 30000; // 30 seconds
 
 const getInitials = (name: string) => {
     if (!name) return '';

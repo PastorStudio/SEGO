@@ -3,7 +3,7 @@ import { getUser, getProjects, getImmediateTasks } from "@/lib/data"
 import { notFound } from "next/navigation"
 import { UserProfileClient } from "./_components/user-profile-client"
 
-export default async function UserProfilePage({ params }: { params: { id: string } }) {
+export default async function UserProfilePage({ params }: { params: any }) {
   const userData = await getUser(params.id)
   if (!userData) {
     notFound();

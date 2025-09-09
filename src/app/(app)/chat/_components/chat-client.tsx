@@ -4,7 +4,9 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "@/hooks/use-auth";
-import { type User, type ChatMessage, addChatMessage, getPrivateChatMessages, getGeneralChatMessages, getUnreadMessageCount, markChatAsRead } from "@/lib/data";
+import { addChatMessage, getPrivateChatMessages, getGeneralChatMessages, getUnreadMessageCount, markChatAsRead } from "@/lib/data";
+import { type ChatMessage } from "@/lib/definitions"; // Correct import for ChatMessage
+import { type User } from "@/lib/definitions"; // Correct import for User
 import { PageHeader } from "@/components/page-header";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -286,7 +288,7 @@ export function ChatClient({ users, initialGeneralMessages, initialSelectedUserI
                             <PopoverContent className="w-auto p-0 border-0">
                                 <EmojiPicker
                                     onEmojiClick={onEmojiClick}
-                                    theme={theme === 'dark' ? 'dark' : 'light'}
+                                    theme={(theme === 'dark' ? 'dark' : 'light') as any}
                                 />
                             </PopoverContent>
                         </Popover>

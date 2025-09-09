@@ -9,12 +9,13 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Calendar as CalendarIcon } from 'lucide-react';
-import { getProjects, getTasks, getInvoices, getWarehouseRequests, type Invoice, type WarehouseRequest, type Project, type Task } from '@/lib/data';
+import { getProjects, getTasks, getInvoices, getWarehouseRequests } from '@/lib/data';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { EventDetails } from './event-details';
 import { useAuth } from '@/hooks/use-auth.tsx';
+import { type User, type Project, type Invoice, type WarehouseRequest, type Task } from "@/lib/definitions";
 
 export type EventType = 'project' | 'task' | 'invoice' | 'request';
 
@@ -36,7 +37,7 @@ const locales = {
 const localizer = dateFnsLocalizer({
   format,
   parse,
-  startOfWeek: (date) => startOfWeek(date, { locale: es }),
+  startOfWeek: (date: Date) => startOfWeek(date, { locale: es }),
   getDay,
   locales,
 })
@@ -95,27 +96,27 @@ export function CalendarView({ setCalendarOpen }: { setCalendarOpen: (open: bool
             const [projects, tasks, invoices, requests] = await Promise.all(dataPromises);
 
             const projectEvents: CalendarEvent[] = projects.map(p => {
-                const startDate = startOfDay(new Date(p.dueDate));
+                const startDate = startOfDay(new Date((p as Project).dueDate));
                 return {
                     start: startDate,
                     end: addDays(startDate, 1),
-                    title: p.name,
+                    title: (p as Project).name,
                     resource: { type: 'project', status: p.status, id: p.id }
                 }
             });
 
             const taskEvents: CalendarEvent[] = tasks.map(t => {
-                const startDate = startOfDay(new Date(t.dueDate));
+                const startDate = startOfDay(new Date((t as Task).dueDate));
                 return {
                     start: startDate,
                     end: addDays(startDate, 1),
-                    title: t.title,
+                    title: (t as Task).title,
                     resource: { type: 'task', status: t.status, id: t.id }
                 }
             });
             
             const invoiceEvents: CalendarEvent[] = invoices.map(i => {
-                 const startDate = startOfDay(new Date(i.dueDate));
+                 const startDate = startOfDay(new Date((i as Invoice).dueDate));
                  return {
                     start: startDate,
                     end: addDays(startDate, 1),
@@ -125,7 +126,7 @@ export function CalendarView({ setCalendarOpen }: { setCalendarOpen: (open: bool
             });
             
             const requestEvents: CalendarEvent[] = requests.map(r => {
-                 const startDate = startOfDay(new Date(r.requiredByDate));
+                 const startDate = startOfDay(new Date((r as WarehouseRequest).requiredByDate));
                  return {
                     start: startDate,
                     end: addDays(startDate, 1),

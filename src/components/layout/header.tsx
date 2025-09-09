@@ -1,7 +1,7 @@
 
 'use client'
 
-import { Search, Bell, MessageSquare, Flag } from 'lucide-react';
+import { Search, Bell, MessageSquare, Flag, Clock } from 'lucide-react';
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -14,7 +14,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from 'next/link';
-import { getNotifications, markNotificationsAsRead, type Notification, searchGlobal, type SearchResult, getProjects, getImmediateTasks, getTickets, Project, ImmediateTask, Ticket } from '@/lib/data';
+import { getNotifications, markNotificationsAsRead, searchGlobal, getProjects, getImmediateTasks, getTickets } from '@/lib/data';
+import { type Notification, type SearchResult, type Project, type ImmediateTask, type Ticket } from '@/lib/definitions';
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { format, formatDistanceToNow } from 'date-fns';
@@ -27,6 +28,7 @@ import { SearchResults } from './search-results';
 import { useDebounce } from '@/hooks/use-debounce';
 import { getAvatarUrl } from '@/lib/avatars';
 import { SupportTicketModal } from '@/app/(app)/tickets/_components/create-ticket-modal';
+import { ClockModal } from "@/components/clock-modal";
 
 const getInitials = (name: string) => {
     if (!name) return '';
@@ -120,6 +122,7 @@ export function Header() {
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const searchRef = useRef<HTMLDivElement>(null);
   const [isSupportModalOpen, setIsSupportModalOpen] = useState(false);
+  const [isClockModalOpen, setIsClockModalOpen] = useState(false);
 
 
   useEffect(() => {
@@ -200,6 +203,11 @@ export function Header() {
 
       <div className="flex items-center gap-2 md:gap-4">
         
+        <Button variant="ghost" size="icon" className="rounded-full relative text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground" onClick={() => setIsClockModalOpen(true)}>
+            <Clock className="h-5 w-5" />
+            <span className="sr-only">Registro de Horas</span>
+        </Button>
+
         <DropdownMenu onOpenChange={handleNotificationsOpen}>
             <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon" className="rounded-full relative text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground">
@@ -262,6 +270,7 @@ export function Header() {
       </div>
     </header>
     {isSupportModalOpen && <SupportTicketModal onOpenChange={setIsSupportModalOpen} />}
+    {isClockModalOpen && <ClockModal isOpen={isClockModalOpen} onClose={() => setIsClockModalOpen(false)} />}
     </>
   );
 }

@@ -90,7 +90,7 @@ export default function LoginPage() {
                       <FormControl>
                         <Input
                           type="email"
-                          placeholder="admin@segoeventos.com"
+                          placeholder="Coloque su email"
                           {...field}
                         />
                       </FormControl>
@@ -105,7 +105,7 @@ export default function LoginPage() {
                     <FormItem>
                       <FormLabel>Contraseña</FormLabel>
                       <FormControl>
-                        <Input type="password" placeholder="••••••••" {...field} />
+                        <Input type="password" placeholder="Coloque su password" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

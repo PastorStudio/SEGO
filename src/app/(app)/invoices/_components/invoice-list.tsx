@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
-import { deleteInvoice, type Invoice, type Client, updateInvoiceStatus } from "@/lib/data"
+import { deleteInvoice, updateInvoiceStatus } from "@/lib/data"
+import type { Invoice, Client } from "@/lib/definitions";
 import { Send, Trash2, Eye } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react";

@@ -25,7 +25,8 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { useToast } from "@/hooks/use-toast"
-import { type User, deleteUser } from "@/lib/data"
+import { deleteUser } from "@/lib/data"
+import type { User } from "@/lib/definitions";
 import { useAuth } from "@/hooks/use-auth.tsx"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"

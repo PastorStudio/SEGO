@@ -4,8 +4,8 @@
 
 import { useEffect, useState, useCallback, createContext, useContext, useMemo, useRef } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { getUsers, getPermissions, type User, getClients, type Client, setUserStatus } from '@/lib/data';
-import type { Page } from '@/lib/definitions';
+import { getUsers, getPermissions, getClients, setUserStatus } from '@/lib/data';
+import type { Page, User, Client } from '@/lib/definitions';
 import { useToast } from './use-toast';
 
 type LinkType = {
@@ -70,6 +70,7 @@ export function AuthProvider({ children, allLinks }: { children: React.ReactNode
     
      const checkAuthStatus = useCallback(async () => {
         const userId = localStorage.getItem('loggedInUserId');
+        console.log('Auth Check: userId from localStorage', userId);
         
         if (!userId) {
             setCurrentUser(null);
@@ -86,8 +87,10 @@ export function AuthProvider({ children, allLinks }: { children: React.ReactNode
                 getClients(),
                 getPermissions()
             ]);
+            console.log('Auth Check: allUsersData', allUsersData);
 
             const user = allUsersData.find(u => u.id === userId);
+            console.log('Auth Check: user found', user);
 
             if (user) {
                 setCurrentUser(user);
@@ -98,10 +101,12 @@ export function AuthProvider({ children, allLinks }: { children: React.ReactNode
                 setVisibleLinks(allowedLinks);
             } else {
                 // User ID in storage but not in DB
+                console.log('Auth Check: User not found in DB, logging out.');
                 logout();
             }
         } catch (error) {
             console.error("Auth check failed:", error);
+            console.log('Auth Check: Error in try-catch, logging out.');
             logout();
         } finally {
             setIsLoading(false);

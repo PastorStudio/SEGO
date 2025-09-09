@@ -2,7 +2,8 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { getTasks, getWarehouseRequests, type Project, type Task, type WarehouseRequest, type User } from "@/lib/definitions"
+import { type Project, type Task, type WarehouseRequest, type User } from "@/lib/definitions"
+import { getTasks, getWarehouseRequests } from "@/lib/data"
 import { PageHeader } from "@/components/page-header"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"

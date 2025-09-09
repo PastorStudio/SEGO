@@ -2,7 +2,8 @@
 
 'use client'
 
-import { type WarehouseRequest, type Project, updateWarehouseRequest, type User, addCommentToWarehouseRequest } from "@/lib/data";
+import { updateWarehouseRequest, addCommentToWarehouseRequest } from "@/lib/data";
+import type { WarehouseRequest, Project, User } from "@/lib/definitions";
 import { Button } from "@/components/ui/button";
 import {
   Accordion,
@@ -182,8 +183,8 @@ export function WarehouseRequestList({ initialRequests, initialProjects, initial
                                 </TableRow>
                             </TableHeader>
                              <TableBody>
-                                {request.items.map(item => (
-                                    <TableRow key={item.id}>
+                                {Array.isArray(request.items) && request.items.map((item, index) => (
+                                    <TableRow key={index}>
                                         <TableCell>{item.name}</TableCell>
                                         <TableCell className="text-right font-medium">{item.quantity}</TableCell>
                                     </TableRow>

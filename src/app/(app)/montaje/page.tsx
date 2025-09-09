@@ -360,6 +360,60 @@ export default function MaquetacionVisual() {
     setItemToAdd(null);
   }
   
+  const handleDuplicateSelectedNodes = () => {
+    if (selectedIds.length === 0) return;
+
+    const newNodes:any[] = [];
+    const newSelectedIds:string[] = [];
+    const idMap = new Map<string, string>();
+    const isGroupDuplication = nodes.find(n => n.id === selectedIds[0])?.groupId;
+    const newGroupId = isGroupDuplication ? `group-${genId()}` : undefined;
+
+    selectedIds.forEach(id => {
+      const copyId = genId();
+      idMap.set(id, copyId);
+      newSelectedIds.push(copyId);
+    });
+
+    nodes.forEach(n => {
+      if(selectedIds.includes(n.id)) {
+        const newNode = { ...n, id: idMap.get(n.id), x: n.x + grid, y: n.y + grid };
+        if (isGroupDuplication) {
+          newNode.groupId = newGroupId;
+        }
+        newNodes.push(newNode);
+      }
+    });
+    setNodes(prev => [...prev, ...newNodes]);
+    setSelectedIds(newSelectedIds);
+  };
+
+  const handleRotateSelectedNodes = () => {
+    if (selectedIds.length === 0) return;
+    performActionOnSelection(n => ({...n, rot: (n.rot + 15) % 360}));
+  };
+
+  const handleScaleUpSelectedNodes = () => {
+    if (selectedIds.length === 0) return;
+    performActionOnSelection(n => ({...n, scale: Math.min(3, n.scale + 0.1)}));
+  };
+
+  const handleScaleDownSelectedNodes = () => {
+    if (selectedIds.length === 0) return;
+    performActionOnSelection(n => ({...n, scale: Math.max(0.1, n.scale - 0.1)}));
+  };
+
+  const handleDeleteSelectedNodes = () => {
+    if (selectedIds.length === 0) return;
+    setNodes((prev) => prev.filter((n) => !selectedIds.includes(n.id)));
+    setSelectedIds([]);
+  };
+
+  const handleCancelDuplicates = () => {
+      setDuplicatePromptOpen(false);
+      setItemToAdd(null);
+  };
+
   const handleAddDecorStyle = (style: any) => {
     const items = style.items.map((type: string) => ALL_ITEMS[type]).filter(Boolean);
     if (items.length > 0) {
@@ -369,12 +423,6 @@ export default function MaquetacionVisual() {
         toast({ title: 'Estilo no encontrado', description: 'No se encontraron los elementos para este estilo.', variant: 'destructive'});
     }
   };
-
-
-  const handleCancelDuplicates = () => {
-      setDuplicatePromptOpen(false);
-      setItemToAdd(null);
-  }
 
   const handleGenerateSmartSetup = (config: { guests: number, tableType: string, addCenterpieces: boolean, addPlaceSettings: boolean }) => {
     if (!containerRef.current) return;
@@ -458,7 +506,7 @@ export default function MaquetacionVisual() {
 
     const { x: clickX, y: clickY } = toLocal(e.clientX, e.clientY);
     const groupId = `group-${genId()}`;
-    const newNodes = [];
+    const newNodes: any[] = [];
 
     const { guests, tableType, addCenterpieces, addPlaceSettings } = placementMode.config;
     const tableItem = ALL_ITEMS[tableType];
@@ -568,32 +616,7 @@ export default function MaquetacionVisual() {
       setNodes((prev) => prev.filter((n) => !selectedIds.includes(n.id)));
       setSelectedIds([]);
     }
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "d" && selectedIds.length > 0) {
-      e.preventDefault();
-      const newNodes:any[] = [];
-      const newSelectedIds:string[] = [];
-      const idMap = new Map<string, string>();
-      const isGroupDuplication = nodes.find(n => n.id === selectedIds[0])?.groupId;
-      const newGroupId = isGroupDuplication ? `group-${genId()}` : undefined;
-
-      selectedIds.forEach(id => {
-        const copyId = genId();
-        idMap.set(id, copyId);
-        newSelectedIds.push(copyId);
-      });
-
-      nodes.forEach(n => {
-        if(selectedIds.includes(n.id)) {
-          const newNode = { ...n, id: idMap.get(n.id), x: n.x + grid, y: n.y + grid };
-          if (isGroupDuplication) {
-            newNode.groupId = newGroupId;
-          }
-          newNodes.push(newNode);
-        }
-      });
-      setNodes(prev => [...prev, ...newNodes]);
-      setSelectedIds(newSelectedIds);
-    }
+    
     if (e.key.toLowerCase() === "r" && selectedIds.length > 0) {
       e.preventDefault();
       performActionOnSelection(n => ({...n, rot: (n.rot + 15) % 360}));
@@ -842,13 +865,13 @@ export default function MaquetacionVisual() {
             <div className="flex items-center gap-1 min-w-[180px]">
                 {selectedIds.length > 0 ? (
                     <>
-                    <ToolbarButton title="Duplicar (Ctrl/Cmd + D)" icon={Copy} onClick={() => useKeyDown({key: 'd', ctrlKey: true, metaKey: true, preventDefault:()=>{}} as KeyboardEvent)} />
-                    <ToolbarButton title="Rotar 15° (R)" icon={RotateCcw} onClick={() => useKeyDown({key: 'r', preventDefault:()=>{}} as KeyboardEvent)} />
+                    <ToolbarButton title="Duplicar (Ctrl/Cmd + D)" icon={Copy} onClick={handleDuplicateSelectedNodes} />
+                    <ToolbarButton title="Rotar 15° (R)" icon={RotateCcw} onClick={handleRotateSelectedNodes} />
                     <Separator orientation="vertical" className="h-4 mx-1" />
-                    <ToolbarButton title="Escalar -" icon={ZoomOut} onClick={() => useKeyDown({key: '-', preventDefault:()=>{}} as KeyboardEvent)}/>
-                    <ToolbarButton title="Escalar +" icon={ZoomIn} onClick={() => useKeyDown({key: '+', preventDefault:()=>{}} as KeyboardEvent)}/>
+                    <ToolbarButton title="Escalar -" icon={ZoomOut} onClick={handleScaleDownSelectedNodes}/>
+                    <ToolbarButton title="Escalar +" icon={ZoomIn} onClick={handleScaleUpSelectedNodes}/>
                     <Separator orientation="vertical" className="h-4 mx-1" />
-                    <ToolbarButton title="Eliminar (Supr)" icon={Trash2} onClick={() => useKeyDown({key: 'Delete', preventDefault:()=>{}} as KeyboardEvent)} className="bg-destructive/10 hover:bg-destructive/20 text-destructive border-destructive/20 hover:border-destructive/30"/>
+                    <ToolbarButton title="Eliminar (Supr)" icon={Trash2} onClick={handleDeleteSelectedNodes} className="bg-destructive/10 hover:bg-destructive/20 text-destructive border-destructive/20 hover:border-destructive/30"/>
                     </>
                 ) : (
                     <div className="flex items-center gap-2">

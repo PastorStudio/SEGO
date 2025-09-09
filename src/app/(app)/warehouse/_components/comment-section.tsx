@@ -3,7 +3,7 @@
 'use client'
 
 import { useState } from "react";
-import { type User, type Comment } from "@/lib/data";
+import type { User, Comment } from "@/lib/definitions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Send, AtSign } from "lucide-react";

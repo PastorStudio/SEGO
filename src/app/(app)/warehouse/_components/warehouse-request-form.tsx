@@ -31,13 +31,13 @@ import {
   CardDescription,
   CardFooter,
 } from "@/components/ui/card";
-import { type Project, addWarehouseRequest } from "@/lib/data";
+import { addWarehouseRequest } from "@/lib/data";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { services } from "@/lib/services";
 import { Trash2 } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
-import { type User } from "@/lib/definitions";
+import { type User, type Project } from "@/lib/definitions";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/use-auth.tsx";
 

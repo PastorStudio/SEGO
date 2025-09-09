@@ -1,7 +1,7 @@
 
 'use client'
 
-import { type SearchResult } from "@/lib/data";
+import type { SearchResult } from "@/lib/definitions";
 import Link from "next/link";
 import { ScrollArea } from "../ui/scroll-area";
 import { Briefcase, User, Ticket as TicketIcon, FileText, CheckSquare, Users } from 'lucide-react';

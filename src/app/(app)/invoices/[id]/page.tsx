@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/page-header";
 import { InvoiceForm } from "../_components/invoice-form";
 
-export default async function EditInvoicePage({ params }: { params: { id: string } }) {
+export default async function EditInvoicePage({ params }: { params: any }) {
   const invoice = await getInvoice(params.id);
   const clients = await getClients();
   const projects = await getProjects();

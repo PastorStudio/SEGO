@@ -24,7 +24,8 @@ import {
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { type Project, addProject, updateProject, type User, getUsers, getTickets, type Ticket } from "@/lib/data"
+import { addProject, updateProject, getUsers, getTickets } from "@/lib/data"
+import type { Project, User, Ticket } from "@/lib/definitions";
 import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
 import { Checkbox } from "@/components/ui/checkbox"

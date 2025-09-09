@@ -1,11 +1,13 @@
-
+import React from "react";
 import { getTicket, getUsers, getClients } from "@/lib/data";
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/page-header";
 import { TicketForm } from "../../_components/ticket-form";
 
-export default async function EditTicketPage({ params }: { params: { id: string } }) {
-  const ticket = await getTicket(params.id);
+export default async function EditTicketPage({ params }: { params: any }) {
+  const { id } = params;
+
+  const ticket = await getTicket(id);
   const users = await getUsers();
   const clients = await getClients();
 
@@ -19,4 +21,4 @@ export default async function EditTicketPage({ params }: { params: { id: string 
       <TicketForm ticket={ticket} users={users} clients={clients} />
     </>
   );
-}
+};

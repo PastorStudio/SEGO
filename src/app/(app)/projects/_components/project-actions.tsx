@@ -23,7 +23,8 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { useToast } from "@/hooks/use-toast"
-import { type Project, deleteProject } from "@/lib/data"
+import { deleteProject } from "@/lib/data"
+import type { Project } from "@/lib/definitions";
 import { useAuth } from "@/hooks/use-auth.tsx"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"

@@ -24,7 +24,8 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
-import { type User, type Client, type Ticket, addTicket, updateTicket } from "@/lib/data"
+import { addTicket, updateTicket } from "@/lib/data"
+import type { User, Client, Ticket } from "@/lib/definitions";
 import { useAuth } from "@/hooks/use-auth.tsx"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -36,7 +37,7 @@ const formSchema = z.object({
   requesterType: z.enum(['user', 'client']),
   assigneeId: z.string().optional(),
   priority: z.enum(['Low', 'Medium', 'High', 'Urgent']),
-  status: z.enum(['Open', 'In Progress', 'Closed', 'On Hold']),
+  status: z.enum(['Open', 'In Progress', 'Closed', 'On Hold', 'Abierto', 'En Progreso']),
 })
 
 type TicketFormValues = z.infer<typeof formSchema>
